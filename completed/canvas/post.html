@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Getting Started With The Canvas API</title>
+  <meta name="description" content="" />
+  <meta name="keywords" content="" />
+
+  <style>
+    img {
+      max-width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div style="width: 680px; margin: 0 auto;">
+
+		<h1>Getting Started With The Canvas API</h1>
+
+		<p>
+			<img src="canvas-feature.png" alt="">
+		</p>
+
+		<!-- POST CONTENT -->
+		<p>
+      The Canvas API provides a way for developers to create graphics on-the-fly from directly within the web browser. This has a number of benefits. First it can help to reduce the number of HTTP requests that are needed to load image assets for your website, in turn helping to decrease page load times. Using Canvas also allows you to create customised graphics on the client. This is really useful if your application needs to create charts or graphs to present data. Previously this work would have been done on the server-side which consumes valuable server resources.
+    </p>
+    <p>
+      In this blog post we are going to run through the basics of how to start using the Canvas API in your web applications.
+    </p>
+
+    <h2>The &lt;canvas&gt; Element</h2>
+    <p>
+      The first step towards using the Canvas API is becoming familiar with the <code>&lt;canvas&gt;</code> element. This element is used to set the canvas in your web page. You will then draw on the canvas using the JavaScript API. You should treat this element just like you would any other HTML element, and it can be positioned and styled using CSS.
+    </p>
+    <p>
+      Your <code>&lt;canvas&gt;</code> element should have an <code>id</code> attribute. You will use this ID to select the canvas when using the JavaScript API.
+    </p>
+    <pre>
+&lt;canvas id="myCanvas" width="400" height="200"&gt;
+  &lt;p&gt;Your web browser does not support canvas!&lt;/p&gt;
+&lt;/canvas&gt;
+    </pre>
+    <p>
+      The markup above shows an example <code>&lt;canvas&gt;</code> element. The markup that you place between the element tags will be displayed if the user's web browser does not support canvas.
+    </p>
+
+
+    <h2>Setting up the Canvas</h2>
+    <p>
+      To draw on your canvas you will be using a JavaScript API. The first thing you need to do is get a reference to the <code>&lt;canvas&gt;</code> element in your HTML markup. This is best acheived using the <code>getElementById(id)</code> function.
+    </p>
+    <pre>
+var canvas = document.getElementById('myCanvas');
+    </pre>
+    <p>
+      You can check to see whether the user's browser supports the Canvas API by checking for the presence of the <code>getContext()</code> function on your canvas instance.
+    </p>
+    <p>
+      To start drawing on the canvas you will need to initialize something called a <em>2d drawing context</em>. This is like the pencil that you might use to draw in a sketchbook. To initialiaze a 2d drawing context you call the <code>getContext('2d')</code> on your canvas instance. The '2d' refers to the fact that you are drawing on a flat 2D plain.
+    </p>
+    <pre>
+var ctx = canvas.getContext('2d');
+    </pre>
+    <p>
+      The JavaScript code below shows how you can put together everything in this section to get your canvas ready to start drawing.
+    </p>
+    <pre>
+window.onload = function() {
+  
+  // Get the canvas element.
+  var canvas = document.getElementById('myCanvas');
+
+  // Check to see if the browser supports the Canvas API.
+  if (canvas.getContext) {
+
+    // Initialize a 2d drawing context.
+    var ctx = canvas.getContext('2d');
+  }
+}
+    </pre>
+
+    <h2>Drawing Rectangles</h2>
+    <p>
+      The first shape that we are going to learn how to draw is the rectangle. You can draw a rectangle using the <code>fillRect(x, y, width, height)</code> function. The <code>x</code> and <code>y</code> correspond to the position that the rectangle should be drawn on the canvas. These coordinates should represent the position of the top left corner of the rectangle.
+    </p>
+    <p>
+      The canvas works like a big grid. You specify the position that elements should be drawn on the grid using x and y coordinates. We will look at this in more detail in the next section when we learn about drawing lines.
+    </p>
+    <p>
+      Before drawing the rectangle you first need to set the color of the fill. This is done using the <code>fillStyle</code> property of the drawing context. You can use an rgb, rgba or hexadecimal color code as well as a limited selection of color keywords.
+    </p>
+    <p>
+      Once you have set the <code>fillStyle</code> you simply use the <code>fillRect()</code> function to draw the rectangle on the canvas, as shown in the example below.
+    </p>
+
+<pre>
+ctx.fillStyle = "#000000"; // Set the fill to black
+ctx.fillRect(0,0,200,100); // Draw the filled rectangle
+</pre>
+<img sc="" alt="">
+
+  <p>
+    As well as drawing filled rectangles you can use the <code>strokeRect()</code> function to draw just a rectangular outline.
+  </p>
+
+<pre>
+ctx.strokeRect(0,0,200,100); // Draw the outline of a rectangle
+</pre>
+<img sc="" alt="">
+
+  <p>
+    The <code>clearRect()</code> function can be used to erase everything that has been drawn on the canvas within a certain area. This image below illustrates this effect.
+  </p>
+<pre>
+ctx.fillStyle = "#000000";
+ctx.fillRect(0,0,200,100);
+
+ctx.clearRect(100,50,50,50); // Erase a rectangular area from your canvas
+</pre>
+<img sc="" alt="">
+
+
+    <h2>Drawing Lines</h2>
+    <p>
+      In order to draw lines on the canvas you need to be familiar with things called <em>paths</em>. If you use Illustrator this should be ringing some bells. Paths are essentially just straight or curved lines, but they don't necessarily have to be visible.
+    </p>
+    <p>
+      If you want to draw a line on your canvas you first need to use the <code>beginPath()</code> function to create a new path. Once you have done this you use the <code>moveTo(x,y)</code> function to move to the position that you would like your line to start. This will not draw anything on the canvas, it merely repositions the <em>cursor</em>. Think of this like picking up the pencil off of a page and moving it to somewhere else on the page. The pencil didn't make contact with the page so there is no visible line, but it still had to travel a path to get to the destination.
+    </p>
+    <pre>
+ctx.beginPath();
+ctx.moveTo(10,10);
+    </pre>
+    <p>
+      Once you have your cursor where you want your line to start you use the <code>lineTo(x,y)</code> function to once again move the cursor. Initially this will not draw anything on the canvas. For the line to become visible you need to use the <code>stroke()</code> function. You can set the width and color of the line using the <code>lineWidth</code> and <code>strokeStyle</code> properties. Make sure you set these before you call the <code>stroke()</code> function.
+    </p>
+    <p>
+      The JavaScript code below shows an example of how to draw a line on a canvas.
+    </p>
+
+<pre>
+ctx.beginPath(); // Create a path
+ctx.moveTo(20, 20); // Move to the starting position
+ctx.lineTo(80, 20); // Draw a line to 80, 20
+ctx.lineWidth = 1.0; // Set the width of the line
+ctx.strokeStyle = "#0088CC"; // Set the color of the line
+ctx.stroke(); // Stroke the path to make the line visible
+</pre>
+<img sc="" alt="">
+
+    <hr>
+    <p>
+      <strong>NOTE:</strong> You can have multiple calls to the <code>moveTo()</code> and <code>lineTo()</code> functions before you call <code>stroke()</code>. Only the parts of the path drawn using the <code>lineTo()</code> function will become visible.
+    </p>
+    <hr>
+
+    <h2>Drawing Circles and Arcs</h2>
+    <p>
+      Drawing circles is a little more tricky than drawing rectangles. Instead of drawing a shape you actually draw a circular path and then fill or stroke the path for form the circle.
+    </p>
+    <p>
+      Curved paths are drawn with the <code>arc()</code> function.
+    </p>
+    <pre>
+ctx.arc(x, y, radius, startAngle, endAngle, anticlockwise);
+    </pre>
+    <p>
+      The first two parameters (<code>x</code> and <code>y</code>) specify the position of the circles center. The <code>radius</code> parameter sets, well the radius. The <code>startAngle</code> and <code>endAngle</code> parameters are used to specify the start and end positions of the arc, these should be proved in radians not degrees (see note below). Finally the <code>anticlockwise</code> parameters whether the arc should be drawn anticlockwise (true) or clockwise (false).
+    </p>
+    <p>
+      Before you draw your arc you first need to use the <code>beginPath()</code> function to create a new path.
+    </p>
+    <p>
+      The example below will draw a 360 degree arc (a circle). Notice that here I have used the <code>fill()</code> function. This behaves in the same way to <code>stroke()</code>. Your arc will not be visible until you make a call to <code>fill()</code> or <code>stroke()</code>.
+    </p>
+<pre>
+ctx.beginPath();
+ctx.arc(50, 50, 0, Math.PI*2, true);
+ctx.fillStyle = "#000000";
+ctx.fill();
+</pre>
+<img sc="" alt="">
+
+    <p>
+      This example uses the same arc as the one above but this time we have used the <code>stroke()</code> function to draw the outline of a circle rather than filling it in.
+    </p>
+
+<pre>
+ctx.beginPath();
+ctx.arc(50, 50, 0, Math.PI*2, true);
+ctx.lineWidth = 1.0;
+ctx.strokeStyle = "#000";
+ctx.stroke();
+</pre>
+<img sc="" alt="">
+
+    <p>
+      You could also use the <code>arc()</code> function to draw simple curved paths as well as sectors (or segments) of a circle.
+    </p>
+
+    <hr>
+    <p>
+      <strong>NOTE:</strong> The <code>Math.PI*2</code> value used in the <code>endAngle</code> parameter in the above examples is just a shorthand way of expressing 360 degrees in radians. You can convert degrees to radians using the statement below.
+    </p>
+    <pre>
+var radians = (Math.PI / 180) * degrees;
+    </pre>
+    <hr>
+
+
+    <h2>More Advanced Stylin</h2>
+    <p>
+      Now that you know how to draw some basic shapes, lets move past the basic fills and styles you've been using up to this point and learn how to add gradients and shadows to your canvas elements.
+    </p>
+    <h3>Linear Gradients</h3>
+    <p>
+      To create a linear gradient you need to use the <code>createLinearGradient(x1, y1, x2, y2)</code> function. This will return a <code>canvasGradient</code> object. The first two parameter represent the start position of the gradient and the second two are for the end position. This allows you to create gradients that can go top-to-bottom, left-to-right, corner-to-corner and vice-versa.
+    </p>
+    <pre>
+var gradient = ctx.createLinearGradient(0,0,0,100); // Create a top-to-bottom gradient.
+    </pre>
+    <p>
+      Now that you have your <code>canvasGradient</code> object you can use the <code>addColorStop(position, color)</code> function to define the gradients colors. The <code>position</code> parameter should be a value between 0 and 1 that defines where in the gradient the color should appear. If you have worked with applications like Photoshop or Illustrator in the past you may be familiar with color stops.
+    </p>
+    <p>
+      The code below shows an example of how to prepare your gradient.
+    </p>
+
+<pre>
+var myGradient = ctx.createLinearGradient(0, 0, 0, 160);
+myGradient.addColorStop(0, "#BABABA");
+myGradient.addColorStop(1, "#636363");
+</pre>
+  
+  <p>
+    Once you have your gradient setup you can apply it to an element by setting the <code>fillStyle</code> parameter to your gradient variable and then calling a rendering function such as <code>fill()</code> or <code>fillRect()</code>.
+  </p>
+
+<pre>
+ctx.fillStyle = myGradient;
+ctx.fillRect(0,0,200,100);
+</pre>
+<img sc="" alt="">
+
+  <h3>Shadows</h3>
+  <p>
+    There are four properties that you need to set to add shadows to your canvas elements. These are: <code>shadowOffsetX</code>, <code>shadowOffsetY</code>, <code>shadowBlur</code> and <code>shadowColor</code>.
+  </p>
+  <p>
+    The <code>shadowOffsetX</code> and <code>shadowOffsetY</code> properties set the position of the shadow relative to the canvas element. The <code>shadowBlur</code> property specifies the size of the blur effect and the <code>shadowColor</code> sets the color of the shadow.
+  </p>
+<pre>
+ctx.shadowOffsetX = 10;
+ctx.shadowOffsetY = 10;
+ctx.shadowBlur = 1;
+ctx.shadowColor = "rgba(0,0,0,0.5)";
+
+ctx.fillStyle = "#0088CC";
+ctx.fillRect(0,0,200,100);
+</pre>
+<img sc="" alt="">
+
+  <p>
+    All of the elements that you draw after setting these properties will have a shadow applied to them. If you just want to apply a shadow to one element place a call to the <code>save()</code> function before you set the properties and then a call to <code>restore()</code> after you have drawn the element. The <code>save()</code> function will take a snapshot of the current state of your drawing context, using the <code>restore()</code> function will then revert your context back to the snapshot that was saved previously. Using these two functions can be really useful as it prevents you from having to manually reset properties that you no longer want to be effective.
+  </p>
+  <p>
+    The JavaScript code below shows an example of how to use the <code>save()</code> and <code>restore()</code> functions.
+  </p>
+<pre>
+ctx.save(); // Save context
+
+ctx.shadowOffsetX = 10;
+ctx.shadowOffsetY = 10;
+ctx.shadowBlur = 1;
+ctx.shadowColor = "rgba(0,0,0,0.5)";
+
+ctx.fillStyle = "#0088CC";
+ctx.fillRect(0,0,200,100); // Rectangle with shadow
+
+ctx.restore(); // Restore context
+
+ctx.fillStyle = "#CC0000";
+ctx.fillRect(0,0,200,100); // Rectangle without shadow
+</pre>
+<img sc="" alt="">
+
+
+    <h2>Drawing Text</h2>
+    <p>
+      As well as drawing lines, shapes and arcs, you can also draw text on your canvas. It's worth noting that this is not 'real' text. You cannot highlight it with your mouse. The same rules apply to text on a canvas as text in standard images.
+    </p>
+    <p>
+      There a number of properties that you can use to alter the styling of your text. The <code>font</code> property allows you to set the font family, size and weight. The <code>textAlign</code> property sets the alignment of your text (left/center/right). To set the font color you use the <code>fillStyle</code> property that you should be fairly familiar with by now.
+    </p>
+    <p>
+      Once you have set your styling properties you draw text onto the canvas using the <code>fillText(text, x, y)</code> function. The <code>x</code> and <code>y</code> parameters are used to set the position of the text on the canvas.
+    </p>
+<pre>
+ctx.font = "Bold 20px Arial";
+ctx.textAlign = "center";
+ctx.fillStyle = "#CC0000";
+ctx.fillText("Writing on a canvas", 10, 50);
+</pre>
+<img sc="" alt="">
+    <p>
+      Unfortunately the <code>fillText()</code> function does not support text wrapping and therefore if you have multiple lines of text you will need to use seperate <code>fillText()</code> calls to draw each line.
+    </p>
+
+
+    <h2>Using Images on Your Canvas</h2>
+    <p>
+      The last stop on our tour of the Canvas API is to learn how to add images to your canvas.
+    </p>
+    <p>
+      First you need to create a new <code>Image</code> object and set the value of tis <code>src</code> property to a path to your image file.
+    </p>
+    <p>
+      Once you have your <code>Image</code> object you pass this into the <code>drawImage()</code> function along with <code>x</code> and <code>y</code> coordinates for positioning the image. The height and width of the image on the canvas will be defined by the original dimensions of the image file.
+    </p>
+    <pre>
+var img = new Image();
+img.src = "image.png";
+ctx.drawImage(img, 0, 0);
+    </pre>
+    <p>
+      One caveat to consider is that your image will take some time to load. If you call the <code>drawImage()</code> function before the image has loaded the image won't be drawn on your canvas. To combat this problem you need to setup and event listener for the <code>onload</code> event of your <code>Image</code> object and then call the <code>drawImage()</code> function from within this event listener. The example below shows how to do this.
+    </p>
+<pre>
+var img = new Image();
+img.onload = function() {
+  ctx.drawImage(img, 0, 0);
+}
+img.src = "image.png";
+</pre>
+<img sc="" alt="">
+    
+    <hr>
+    <p>
+      <strong>NOTE:</strong> Make sure that you setup your event listener before you set the <code>src</code> property on your <code>Image</code> object.
+    </p>
+    <hr>
+
+    <h2>Final Thoughts</h2>
+    <p>
+      That concludes our whirlwind tour of the Canvas API! We've covered quite a lot in this blog post. I've tried to divide it up so that it can act as a quick reference for you in the future.
+    </p>
+    <p>
+      The Canvas API is really interesting and there are a lot of awesome developers out there that have been using it to build wonderful things like <a href="http://chrome.angrybirds.com/" title="Angry Birds for Chrome" target="_blank">HTML5 games</a>. However, possible applications don't stop with games. You could use the Canvas API for generating charts and graphs; manipulating images (like those apps that put banners and badges over your twitter picture); generating customized ads on-the-fly; or for building cool interactive features for your website.
+    </p>
+    <p>
+      What are you using the Canvas API for in your projects? Let us know in the comments below.
+    </p>
+
+
+    <h2>Useful Links</h2>
+    <ul>
+      <li>
+        <a href="https://developer.mozilla.org/en-US/docs/HTML/Canvas" target="_blank" rel="nofollow">Canvas (MDN)</a>
+      </li>
+      <li>
+        <a href="http://www.w3.org/html/wg/drafts/2dcontext/html5_canvas/" target="_blank" rel="nofollow">2D Canvas Specification (W3C)</a>
+      </li>
+      <li>
+        <a href="http://chrome.angrybirds.com/" title="Angry Birds for Chrome" target="_blank">Demo: Angry Birds for Chrome (built using Canvas)</a>
+      </li>
+    </ul>
+
+	</div>
+</body>
+</html>

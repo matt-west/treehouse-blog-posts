@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Accessing the Device Camera with getUserMedia</title>
+  <meta name="description" content="" />
+  <meta name="keywords" content="" />
+
+  <style>
+    img {
+      max-width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div style="width: 680px; margin: 0 auto;">
+
+		<h1>Accessing the Device Camera with getUserMedia</h1>
+
+		<p>
+			<img src="getusermedia-feature.png" alt="">
+		</p>
+
+		<!-- POST CONTENT -->
+		<p>
+      One of the most fun technologies to come to web browsers in the last couple years is the ability to access the webcam and microphone without the need for a third party plugin. When you combine native video streams with the new CSS3 filters you have a recipe for awsomeness.
+    </p>
+    <p>
+      In this blog post you are going to learn how to access the device camera using <code>getUserMedia</code> and stream this input into a <code>&lt;video&gt;</code> element. To finish up you will play around with using CSS3 filters to add cool effects to the camera feed.
+    </p>
+
+    <h2>Browser Support for getUserMedia</h2>
+    <img src="images/browser-support.png" alt="" width="150">
+    <p>
+      Before we start it's worth taking a look at browser support. Support for <code>getUserMedia</code> has been around in some desktop browsers for a little while now.
+    </p>
+    <p>
+      Google Chrome has supported <code>getUserMedia</code> since v24. The API is currently still prefixed as <code>webkitGetUserMedia</code>.
+    </p>
+    <p>
+      Firefox has support for the API through <code>mozGetUserMedia</code>. However you may need to enable media support manually. To do this go to <a href="about:config">about:config</a> and toggle the <code>media.navigator.enabled</code> option to true.
+    </p>
+    <p>
+      Opera supports the unprefixed <code>getUserMedia</code> function.
+    </p>
+    <p>
+      For more detailed browser support information check out the compatibility table on <a href="http://caniuse.com/#feat=stream" target="_blank">caniuse.com</a>
+    </p>
+
+    <h2>Setting Up The Demo</h2>
+    <p>
+      Lets dive in and create a demo so that you can see how to use <code>getUserMedia</code>.
+    </p>
+    <p>
+      First we need to create a HTML file for our markup. Create a new file called <code>index.html</code> and save it in a folder that is accessible from your local development server.
+    </p>
+    <hr>
+    <strong>Note:</strong> You cannot use <code>getUserMedia</code> with files served using <code>file://</code> URLs.
+    <hr>
+    <p>
+      Copy the following code into your <code>index.html</code> file. This will setup a basic web page with a <code>&lt;video&gt;</code> element and a <code>&lt;div&gt;</code> that will be used for styling purposes.
+    </p>
+<pre>
+&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+  &lt;meta charset="utf-8"&gt;
+  &lt;title&gt;HTML5 Demo: getUserMedia (Treehouse Blog)&lt;/title&gt;
+  &lt;link rel="stylesheet" href="style.css"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div id="video-container"&gt;
+    &lt;video id="camera-stream" width="500" autoplay&gt;&lt;/video&gt;
+  &lt;/div&gt;
+  &lt;script src="script.js"&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+    <p>
+      Now create a stylesheet called <code>style.css</code> file and save it in the same folder as your <code>index.html</code> file. Copy the following CSS code into your new stylesheet.
+    </p>
+<pre>
+body {
+  background: #F7F7F7;
+  margin: 0;
+  padding: 0;
+}
+
+#video-container {
+  margin: 2em auto 0;
+  width: 500px;
+  padding: 2em;
+  background: white;
+  -webkit-box-shadow: 0 1px 10px #D9D9D9;
+  -moz-box-shadow: 0 1px 10px #D9D9D9;
+  -ms-box-shadow: 0 1px 10px #D9D9D9;
+  -o-box-shadow: 0 1px 10px #D9D9D9;
+  box-shadow: 0 1px 10px #D9D9D9;
+}
+</pre>
+    <p>
+      Finally you need to setup a JavaScript file that will contain the code used to access the camera. Name this file <code>script.js</code> and save it in the same folder as your other assets. The code below will alias the vendor prefixed versions of <code>getUserMedia</code> so that you only need to call <code>navigator.getUserMedia</code> once rather than having to call of the the vendor prefixed versions seperately in order to get your demo working cross browser.
+    </p>
+<pre>
+window.onload = function() {
+  
+  // Normalize the various vendor prefixed versions of getUserMedia.
+  navigator.getUserMedia = (navigator.getUserMedia ||
+                            navigator.webkitGetUserMedia ||
+                            navigator.mozGetUserMedia || 
+                            navigator.msGetUserMedia);
+
+}
+</pre>
+
+    <h2>Accessing The Camera</h2>
+    <p>
+      Now that you have all of your assets setup it's time to take a look at <code>getUserMedia</code> in more detail.
+    </p>
+    <p>
+      The <code>getUserMedia</code> function takes three parameters:
+    </p>
+    <ul>
+      <li>
+        <strong><code>constraints</code></strong> - This should be an object that contains specifies which media streams you would like access to. Example: <code>{ video: true, audio: true }</code>
+      </li>
+      <li>
+        <strong><code>successCallback</code></strong> - A function that will be called if the media stream is successfully loaded. The function will be passed a <code>LocalMediaStream</code> object. 
+      </li>
+      <li>
+        <strong><code>errorCallback</code></strong> (optional) - A function that will be called if the media stream cannot be loaded.
+      </li>
+    </ul>
+    <p>
+      Copy the following code into your <code>script.js</code> file just inside the last curly brace.
+    </p>
+<pre>
+// Check that the browser supports getUserMedia.
+// If it doesn't show an alert, otherwise continue.
+if (navigator.getUserMedia) {
+  // Request the camera.
+  navigator.getUserMedia(
+    // Constraints
+    {
+      video: true
+    },
+
+    // Success Callback
+    function(localMediaStream) {
+      // TODO
+    },
+
+    // Error Callback
+    function(err) {
+      // Log the error to the console.
+      console.log('The following error occurred when trying to use getUserMedia: ' + err);
+    }
+  );
+
+} else {
+  alert('Sorry, your browser does not support getUserMedia');
+}
+</pre>
+    <p>
+      This code first does a check to see if the <code>getUserMedia</code> function is available in the browser. If it's not it will show an alert to the user.
+    </p>
+    <p>
+      Once it has been established that the browser supports <code>getUserMedia</code> we issue the call to <code>getUserMedia</code>, passing in a constraints object that specifies we want a video stream; a callback function; and an error handler that will log any errors to the console.
+    </p>
+    <img src="images/getusermedia-permissions.png" alt="">
+    <p>
+      When the function is called the user will be presented with a permissions dialog, like the one in the image above, giving them the ability to allow or deny access to the camera. This is a very important privacy feature which stops websites from being able to spy on users without them knowing.
+    </p>
+    <p>
+      In the next section you are going to fill in the success callback.
+    </p>
+
+    <h2>Hooking Up The Video Stream</h2>
+    <p>
+      The final thing to do in order to get your video stream working is to hook up the <code>localMediaStream</code> to the <code>&lt;video&gt;</code> element in your HTML markup.
+    </p>
+    <p>
+      Add the following code to the success callback in your <code>getUserMedia</code> call.
+    </p>
+<pre>
+// Get a reference to the video element on the page.
+var vid = document.getElementById('camera-stream');
+
+// Create an object URL for the video stream and use this to set the video source.
+vid.src = window.URL.createObjectURL(localMediaStream);
+</pre>
+    <p>
+      Here you first get a reference to the <code>&lt;video&gt;</code> element on your web page. You then generate an object URL for the video stream provided by <code>getUserMedia</code> and use this URL as the <code>src</code> for the video. You can use an object URL just like you would any other URL.
+    </p>
+    <p>
+      Now if you load up your demo page and accept the permissions dialog you should see the video feed from your camera being displayed on the page, as shown in the figure below.
+    </p>
+    <img src="images/getusermedia-normal.png" alt="">
+
+    <p>
+      Congratulations! You now know how to access the webcam without using any third-party plugins. It's really not as hard as you might have thought.
+    </p>
+    <p>
+      You could stop here, but if you're feeling a little adventurous, continue on to see how you can use CSS3 filters to add effects to the video stream.
+    </p>
+
+    <h2>Adding Effects with CSS3 Filters</h2>
+    <img src="images/filter-effects.jpeg" alt="">
+    <p>
+      CSS3 Filters allow you to easily add effects like grayscale, blur and sepia to your video stream. This works by using the <code>-webkit-filter</code> CSS rule directly on the <code>&lt;video&gt;</code> element on your web page.
+    </p>
+    <p>
+      Add the following CSS code to your <code>style.css</code> file. This will add a sepia effect to the video stream.
+    </p>
+<pre>
+#camera-stream {
+  -webkit-filter: sepia(1);
+}
+</pre>
+    <p>
+      Pretty nifty! Here are some other CSS3 filters for you to play around with.
+    </p>
+<pre>
+-webkit-filter: blur(3px);
+-webkit-filter: grayscale(1);
+-webkit-filter: sepia(1);
+-webkit-filter: brightness(2.5);
+-webkit-filter: contrast(5);
+-webkit-filter: hue-rotate(125deg);
+-webkit-filter: invert(1);
+-webkit-filter: saturate(3);
+-webkit-filter: opacity(0.3);
+</pre>
+
+    <h2>Summary</h2>
+    <p>
+      I hope you've had as much fun playing around with <code>getUserMedia</code> as I did when I was writing this article!
+    </p>
+    <p>
+      Being able to access device hardware like the webcam and microphone without the need for third-party plugins is a big step forward for the web as a whole. There are already a number of web applications that are taking advantage of this emerging technology and I'm excited to see what developers are going to do with it in the future.
+    </p>
+    <p>
+      How do you plan to use <code>getUserMedia</code> in your projects?
+    </p>
+
+    <h2>Useful Links</h2>
+    <ul>
+      <li>
+        <a href="" target="_blank" rel="nofollow"></a>
+      </li>
+    </ul>
+
+	</div>
+</body>
+</html>

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Adding Desktop Notifications to Your Web Applications</title>
+  <meta name="generator" content="iA Writer for Mac 1.4 (1.4)" />
+  <meta name="description" content="" />
+  <meta name="keywords" content="" />
+
+  <style>
+    img {
+      max-width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div style="width: 680px; margin: 0 auto;">
+
+
+		<h1 id="launching-desktop-notifications-from-your-web-applications">Launching Desktop Notifications From Your Web Applications</h1>
+
+
+		<p>
+			<img src="notifications-feature.png" alt="">
+		</p>
+
+		<!-- POST CONTENT -->
+		<p>The new Web Notifications API gives you the ability to launch desktop notifications directly from your web applications. This can be very useful for updating user's with key information, particularly in AJAX applications where you may have HTTP requests taking place in the background.</p>
+		<p>In this blog post you are going to learn how to build notifications into your web applications.</p>
+
+		<h2 id="detecting-support">Detecting Support</h2>
+		<p>To detect support for notifications you can check for the presence of the <code>webkitNotifications</code> interface on the <code>window</code> interface. The example below shows how you might do this.</p>
+		<pre>
+if (window.webkitNotifications) {
+    console.log('Your web browser does support notifications!');
+} else {
+    console.log('Your web browser does not support notifications :( Use Chrome!');
+}
+		</pre>
+
+		<hr>
+		<p><strong>Note</strong></p>
+		<p>The Web Notification API is currently only supported in Google Chrome.</p>
+		<hr>
+
+
+		<h2 id="requesting-permissions">Requesting Permissions</h2>
+		<p>Before you can create notifications you need to request permission to do so from the user. It is worth noting that these permissions are tied to a particular domain name (or sub-domain), so a user will have to allow notifications for each website that wants to use them.</p>
+		<p>To check the current notification permissions you can use the <code>checkPermission()</code> function.</p>
+		<p>This function will return one of the following values:</p>
+		<ul>
+			<li><code>0</code> - Allowed</li>
+			<li><code>1</code> - Not Allowed</li>
+			<li><code>2</code> - Denied</li>
+		</ul>
+		<p>If the <code>checkPermission()</code> function returns 1 it means that the user has not yet authorised (or denied) access to notifications on the domain. If the function returns 2, this means that the user has explicitly blocked the domain from using notifications (they hit the 'Deny' button).</p>
+		<p>You can request permission to create notifications using the <code>requestPermission()</code> function. This will display an info bar like the one shown in the figure below.</p>
+
+		<figure>
+			<img src="./chrome-notifications-permissions.png" alt="Chrome Notifications Permission Bar">
+			<figcaption>
+				Notification Permissions Bar in Google Chrome
+			</figcaption>
+		</figure>
+
+		<p>Putting this all together, here is an example of how you might check whether your web application has permission to create notifications, and request permission if it does not.</p>
+		<pre>
+if (window.webkitNotifications.checkPermission() == 0) {
+    // Good to go, you can create a notification.
+} else {
+    window.webkitNotifications.requestPermission();
+}
+		</pre>
+
+		<hr>
+		<p><strong>Note</strong></p>
+		<p>The <code>requestPermissions()</code> function will only work if it is called as part of a user action (i.e. a button click).</p>
+		<hr>
+
+		<h2 id="creating-a-notification">Creating a Notification</h2>
+		<p>Now it’s time to learn how you actually create notifications. You do this using the <code>createNotification()</code> function.</p>
+		<p>This function takes three parameters.</p>
+		<ul>
+			<li><code>iconUrl</code> - The URL of an image that will be displayed in the notification. If you do not specify a valid URL Chrome will just display the default Chrome logo.</li>
+			<li><code>title</code> - The notification title.</li>
+			<li><code>body</code> - Secondary text that will be displayed below the title.</li>
+		</ul>
+		
+		<figure>
+			<img src="./chrome-notification.png" alt="Chrome Notification">
+			<figcaption>
+				A Notification in Google Chrome
+			</figcaption>
+		</figure>
+
+		<p>Once you have created a notification you use the <code>show()</code> function to display the notification to the user. The example below shows how to create and show a notification like the one in the figure above.</p>
+		<pre>
+var myNotification = window.webkitNotifications.createNotification('icon.png', 'Item Saved', 'My Application Name');
+myNotification.show();
+		</pre>
+
+		<p>You can hide a notification using the <code>cancel()</code> function.</p>
+
+		<hr>
+		<p><strong>Note</strong></p>
+		<p>It is possible that a notification may be in a queue waiting to be displayed on the screen. Due to screen size limitations the browser will only display a certain number of notifications at the same time. The <code>cancel()</code> function will also remove a pending notification from the queue.</p>
+		<hr>
+
+		<h2 id="listening-for-notification-events">Listening for Notification Events</h2>
+		<p>Notifications emit a number of events that you can use to execute code at key points in the notification lifecycle.</p>
+		<ul>
+			<li><code>ondisplay</code> - Called when the notification is displayed. Note that this may not be immediately after the <code>show()</code> function is called.</li>
+			<li><code>onerror</code> - Called when the notification cannot be displayed due to an error.</li>
+			<li><code>onclose</code> - Called when the notification is closed by the user.</li>
+			<li><code>onclick</code> - Called when a user clicks on the notification dialog.</li>
+		</ul>
+		<p>Probably the most useful of these events is the <code>onclick</code> event. You could use this for a number of different applications. A common use case is to load a new page when the user clicks on the notification. The example below shows how you could achieve this behaviour.</p>
+		<pre>
+var myNotification = window.webkitNotifications.createNotification('mike.png', 'New Content Available', 'Click to view');
+myNotification.onclick = function() {
+    window.location = 'http://teamtreehouse.com/new/content';
+}
+myNotification.show();
+		</pre>
+
+
+		<h2 id="in-closing">In closing...</h2>
+		<p>In this blog post you have learned how to add desktop notifications to your web applications. The Web Notifications API may still be in its infancy, but I see it as a significant step towards giving developers the tools they need to create applications that can reach out beyond the browser.</p>
+		<p>Are you using the Notifications API in your projects? Let us know in the comments below.</p>
+
+		<h2 id="reference">Reference</h2>
+		<ul>
+			<li><a href="http://www.chromium.org/developers/design-documents/desktop-notifications/api-specification">Chrome Notifications API</a></li>
+			<li><a href="http://caniuse.com/#feat=notifications">Can I Use Notifications?</a></li>
+		</ul>
+
+
+	</div>
+</body>
+</html>

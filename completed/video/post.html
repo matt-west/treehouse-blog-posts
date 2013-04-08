@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Getting Started with HTML5 Video</title>
+  <meta name="description" content="" />
+  <meta name="keywords" content="" />
+
+  <style>
+    img {
+      max-width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div style="width: 680px; margin: 0 auto;">
+
+		<h1>Getting Started with HTML5 Video</h1>
+
+		<p>
+			<img src="video-feature.png" alt="">
+		</p>
+
+		<!-- POST CONTENT -->
+		<p>
+      Until fairly recently web developers have been largely dependent on plugins like Adobe Flash or Microsoft Silverlight when adding video content to their web pages. Whilst these plugins meet the requirements of the task at hand, the approach of having to rely on a plugin for things like video is flawed.
+    </p>
+    <p>
+      Why can't the browser just handle playing video? When YouTube was founded in 2005, native video playback just simply wasn't an option but today there is a solution and it's called HTML5 video.
+    </p>
+    <p>
+      In this blog post you are going to learn how to add native video to your web pages using technologies introduced in HTML5.
+    </p>
+
+
+    <h2>Video Formats</h2>
+    <p>
+      The first stop on our journey to the shangri-la of native video is to look at formats. There are three main video formats supported by browsers. These are <a href="http://www.webmproject.org/" target="_blank" rel="nofollow">WebM</a>, <a href="http://en.wikipedia.org/wiki/MPEG-4_Part_14" target="_blank" rel="nofollow">MP4</a> and <a href="http://www.theora.org/" target="_blank" rel="nofollow">OGV</a>. As you can see from the table below, there is no single video format that is supported by all the major browsers.
+    </p>
+
+    <table border="1">
+      <thead>
+        <tr>
+          <th></th>
+          <th scope="col">Chrome</th>
+          <th scope="col">Firefox</th>
+          <th scope="col">Opera</th>
+          <th scope="col">Safari</th>
+          <th scope="col">IE9+</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row">WebM (VP8 Codec)</th>
+          <td>Yes</td>
+          <td>Yes</td>
+          <td>Yes</td>
+          <td>No</td>
+          <td>Yes</td>
+        </tr>
+        <tr>
+          <th scope="row">MP4 (H.264 Codec)</th>
+          <td>Yes</td>
+          <td>No</td>
+          <td>No</td>
+          <td>Yes</td>
+          <td>Yes</td>
+        </tr>
+        <tr>
+          <th scope="row">OGV (Ogg Theora Codec)</th>
+          <td>Yes</td>
+          <td>Yes</td>
+          <td>Yes</td>
+          <td>No</td>
+          <td>No</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>
+      If you want to ensure that your users will be able to play your videos you are best to use both the WebM and MP4 formats. You will learn how to specify multiple file formats later in this post.
+    </p>
+
+    <hr>
+    <p>
+      <strong>Note:</strong> <a href="http://firefogg.org/" target="_blank" title="Firefogg Video Converter">Firefogg</a> is a really handy tool for converting your video files into various web formats.
+    </p>
+    <hr>
+
+    <p>
+      Now that you are aware of the formats that your videos need to be provided in, lets move swiftly on to how you actually embed video.
+    </p>
+
+
+    <h2>The &lt;video&gt; Element</h2>
+    <p>
+      To embed native video in your web pages you need to use the new <code>&lt;video&gt;</code> element. Browsers that support HTML5 video will attempt to load the video from the path that you specify in the <code>src</code> attribute. Just as it would load a picture when you use the <code>&lt;img&gt;</code> element. You can sepcify <code>height</code> and <code>width</code> attributes to set the dimensions of the video. Note that unlike an <code>&lt;img&gt;</code> element the <code>&lt;video&gt;</code> element does require a closing tag.
+    </p>
+    <pre>
+&lt;video src="my-video.webm" width="400" height="200"&gt;&lt;/video&gt;
+    </pre>
+    <p>
+      The example above shows a basic <code>&lt;video&gt;</code> element specifying a single video file. However, you have already learned earlier in this post that you need to supply multiple formats of your video in order to ensure playback support in all major browsers. To supply multiple versions of your video you need to use <code>&lt;source&gt;</code> elements. These should be placed inside your <code>&lt;video&gt;</code> element and should each contain a path to a version of your video file (using the <code>src</code> attribute) and a <code>type</code> attribute that specifies the format.
+    </p>
+    <pre>
+&lt;source src="my-video.webm" type="video/webm"&gt;
+    </pre>
+    <p>
+      When the web browser encounters a <code>&lt;video&gt;</code> element with multiple sources it will select the first file that it knows how to play, ignoring any others. You can also add fallback content to the bottom of your <code>&lt;video&gt;</code> elements. This content will be displayed if the user's browser does not support HTML5 video.
+    </p>
+    <hr>
+    <p>
+      <strong>Note:</strong> If a user's browser does support HTML5 video but cannot play any of the files that you provide it will <strong>not</strong> display the fallback content.
+    </p>
+    <hr>
+    <p>
+      In the example below I have used multiple <code>&lt;source&gt;</code> elements to provide different formats of the video. The fallback content used here is just a simple link to download the video. You could also add some code that will fallback to using a plugin like Flash for video playback.
+    </p>
+
+    <pre>
+&lt;video width="400" height="200" id="myVideo"&gt;
+  &lt;source src="my-video.webm" type="video/webm"&gt;
+  &lt;source src="my-video.ogv" type="video/ogv"&gt;
+  &lt;source src="my-video.mp4" type="video/mp4"&gt;
+  &lt;p&gt;
+    Your browser doesn't support HTML5 video.
+    &lt;a href="my-video.mp4"&gt;Download&lt;/a&gt; the video instead.
+  &lt;/p&gt;
+&lt;/video&gt;
+    </pre>
+
+    <hr>
+    <p>
+      <strong>Note:</strong> Remember to drop the <code>src</code> attribute from your <code>&lt;video&gt;</code> tag if you are using <code>&lt;source&gt;</code> elements.
+    </p>
+    <hr>
+    <p>
+      Okay, so that covers the basics of adding video to your web pages. Pretty simple really. Now lets take a look at some of the attributes that you can use to control the behaviour of your video.
+    </p>
+
+    <h2>Video Attributes</h2>
+    <p>
+      In this section you are going to learn about a number of attributes that you can apply to your <code>&lt;video&gt;</code> elements to control built-in browser functionality.
+    </p>
+
+    <h3>controls</h3>
+    <p>
+      The <code>controls</code> attribute is used to instruct the browser to display its default playback controls for the video (as seen in the figure below). By default the browser will not display any controls. It is worth noting that the design of these controls is not standardized and varies between browsers.
+    </p>
+    <pre>
+&lt;video src="my-video.webm" width="400" height="200" <strong>controls</strong>&gt;&lt;/video&gt;
+    </pre>
+    <p>
+      !!!NEED IMAGE HERE!!!
+    </p>
+
+    <h3>loop</h3>
+    <p>
+      When the <code>loop</code> attribute is applied to your <code>&lt;video&gt;</code> element the browser will automatically restart the video when it finishes.
+    </p>
+    <pre>
+&lt;video src="my-video.webm" width="400" height="200" <strong>loop</strong>&gt;&lt;/video&gt;
+    </pre>
+
+    <h3>poster</h3>
+    <p>
+      The <code>poster</code> attribute is used to specify a path to an image that should be displayed in place of your video until the user clicks the play button. This could be a promotional image or a particularly fantastic frame from your video that will grab the attention of anyone browsing your web page. If you do not specify a poster image the browser may just display a black box filling the dimensions of the <code>&lt;video&gt;</code> element. Some browsers may use the first frame of the video however this behaviour is not always consistent.
+    </p>
+    <pre>
+&lt;video src="my-video.webm" width="400" height="200" <strong>poster="featured-frame.png"</strong>&gt;&lt;/video&gt;
+    </pre>
+
+    <h3>muted</h3>
+    <p>
+      The <code>muted</code> attribute is pretty self explanatory. Using this attribute will instruct the browser to mute the video when the page loads.
+    </p>
+    <pre>
+&lt;video src="my-video.webm" width="400" height="200" <strong>muted</strong>&gt;&lt;/video&gt;
+    </pre>
+
+    <h3>autoplay</h3>
+    <p>
+      Applying the <code>autoplay</code> attribute will cause playback to start as soon as the web page finishes loading. Whilst this attribute does have a few legitimate uses it can also be used for evil! Setting a video to autoplay can be annoying to users as it interrupts their focus. Especially if the video includes audio. If you absolutely <em>must</em> use the <code>autoplay</code> attribute consider also applying the <code>muted</code> attribute to minimize the impact that this will have on the user experience.
+    </p>
+    <pre>
+&lt;video src="my-video.webm" width="400" height="200" <strong>autoplay muted</strong>&gt;&lt;/video&gt;
+    </pre>
+
+    <hr>
+    <p>
+      <strong>Note:</strong> There is an API available that allows you to control video playback using JavaScript. How to use this API falls outside the scope of this blog post but if you are interested check out <a href="https://developer.mozilla.org/en-US/docs/HTML/Using_HTML5_audio_and_video#Controlling_media_playback" target="_blank" rel="nofollow">this page</a> on the Mozilla Developer Network.
+    </p>
+    <hr>
+
+    <h2>Final Thoughts</h2>
+    <p>
+      HTML5 video promises to solve a lot of headaches for web developers that need to reliably embed video content into their web pages. Whilst this is all new in HTML5, browser adoption has been very good. All of the major browsers are supporting HTML5 video in some form. If you still have users on older versions of Internet Explorer it may be worth adding a Flash fallback but it's certainly safe to go out and start using HTML5 video today.
+    </p>
+    <p>
+      Are you using HTML5 video in your projects? Let us know in the comments below.
+    </p>
+
+    <h2>Useful Links</h2>
+    <ul>
+      <li>
+        <a href="https://developer.mozilla.org/en-US/docs/HTML/Using_HTML5_audio_and_video#Controlling_media_playback" target="_blank" rel="nofollow">Controlling Media Playback (MDN)</a>
+      </li>
+      <li>
+        <a href="http://caniuse.com/#feat=webm" target="_blank" rel="nofollow">WebM Browser Compatibility</a>
+      </li>
+      <li>
+        <a href="http://caniuse.com/#feat=mpeg4" target="_blank" rel="nofollow">MP4 Browser Compatibility</a>
+      </li>
+      <li>
+        <a href="http://caniuse.com/#feat=ogv" target="_blank" rel="nofollow">OGV Browser Compatibility</a>
+      </li>
+    </ul>
+
+	</div>
+</body>
+</html>

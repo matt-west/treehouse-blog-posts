@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Using HTML5 Input Types to Enhance The User Experience on Mobile</title>
+  <meta name="generator" content="iA Writer for Mac 1.4 (1.4)" />
+  <meta name="description" content="" />
+  <meta name="keywords" content="" />
+
+  <style>
+    img {
+      max-width: 100%;
+    }
+
+    code {
+    	background: #EEE;
+    }
+
+    figure {
+    	padding: 0;
+    	margin: 0;
+    }
+  </style>
+</head>
+<body>
+  <div style="width: 680px; margin: 0 auto;">
+		<h1>Using HTML5 Input Types to Enhance The User Experience on Mobile</h1>
+		<p>
+			<img src="input-types-feature.png" alt="">
+		</p>
+
+		<!-- POST CONTENT -->
+		<p>
+			Browsing the web on mobile devices has become incredbily popular over the past few years. The problem is that the browsing experience on these devices can sometimes leave a lot to be desired. The Responsive Web Design movement started by Ethan Marcotte has helped to stress the importance of providing a fantastic user experience on mobile.
+		</p>
+		<p>
+			However, our focus shouldn't stop at layouts and navigation. One of the worst experiences on mobile is having to fill in forms. Luckily the HTML5 specification introduced a number of new input types you can use to specify what type of data you want to collect in your forms. In a rather awesome move, mobile browser vendors have picked up on these new input types and are using them to display customized keyboard layouts to users that help them to enter data quickly and easily.
+		</p>
+		<p>
+			In this blog post you are going to learn about eight new input types that you can utilise to make it easier for your users to fill in forms on their mobile devices.
+		</p>
+
+		<hr>
+			<strong>Note:</strong> The iOS screenshots in this post where taken using an iPhone 5 and Safari. The Android screenshots were taken using a virtual device running Android 4.1 and the built-in web browser.
+		<hr>
+	
+
+		<h2>Email Addresses</h2>
+		<figure>
+			<img src="email_ios_android.PNG" alt="iOS and Android Keyboards for Email Inputs" width="617">
+			<figcaption>iOS (left) and Android (right) Keyboards for Email Inputs</figcaption>
+		</figure>
+
+		<p>
+			The <code>email</code> type prompts both the iOS and Android browsers to display slightly customized keyboards. Notice the presence of a shortened space bar and addition of <code>@</code> and <code>.</code> keys in the bottom row of the iOS keyboard. On Android, the standard comma key that would appear to the left of the space bar has been replaced with an <code>@</code> key.
+		</p>
+
+		<pre>
+&lt;input type="<strong>email</strong>" name="email"&gt;
+		</pre>
+
+
+		<h2>URLs</h2>
+		<figure>
+			<img src="url.PNG" alt="iOS Keyboard for URL Inputs" width="300">
+			<figcaption>iOS Keyboard for URL Inputs</figcaption>
+		</figure>
+
+		<p>
+			The <code>url</code> input type can be used to help users input web addresses. On iOS the whole space bar has been replaced with <code>.</code>, <code>/</code> and <code>.com</code> keys. 
+		</p>
+		<p>
+			My testing showed no changes to the Android keyboard.
+		</p>
+
+		<pre>
+&lt;input type="<strong>url</strong>" name="url"&gt;
+		</pre>
+
+
+		<h2>Telephone Numbers</h2>
+		<figure>
+			<img src="telephone_ios_android.PNG" alt="iOS and Android Keypads for Telephone Inputs" width="617">
+			<figcaption>iOS (left) and Android (right) Keypads for Telephone Inputs</figcaption>
+		</figure>
+
+		<p>
+			Using the <code>tel</code> input type prompts both iOS and Android to display a dialer keypad instead of the standard keyboard.
+		</p>
+
+		<pre>
+&lt;input type="<strong>tel</strong>" name="tel"&gt;
+		</pre>
+
+
+		<h2>Numbers</h2>
+		<figure>
+			<img src="number_ios_android.PNG" alt="iOS Keyboards for Number Inputs" width="617">
+			<figcaption>iOS (left) and Android (right) Keyboards for Number Inputs</figcaption>
+		</figure>
+
+		<p>
+			The <code>number</code> input type causes iOS to present a keyboard with numbers and punctuation; whereas Android will display a keypad similar to the one displayed for telephone inputs.
+		</p>
+
+		<pre>
+&lt;input type="<strong>number</strong>" name="number"&gt;
+		</pre>
+
+
+		<h2>Date</h2>
+		<figure>
+			<img src="date.PNG" alt="iOS Date Picker" width="300">
+			<figcaption>iOS Date Picker</figcaption>
+		</figure>
+
+		<p>
+			There are also a number of types available for inputing dates and times. These can be really useful as it ensures that your data is provided in a standardized format.
+		</p>
+		<p>
+			On iOS the <code>date</code> input type will prompt a date picker to be displayed. Unfortunately Android does not yet have support for any datetime input types.
+		</p>
+
+		<pre>
+&lt;input type="<strong>date</strong>" name="date"&gt;
+		</pre>
+
+
+		<h2>Time</h2>
+		<figure>
+			<img src="time.PNG" alt="iOS Time Picker" width="300">
+			<figcaption>iOS Time Picker</figcaption>
+		</figure>
+
+		<p>
+			Using the <code>time</code> type will prompt iOS to display a simple picker for selecting hours and minutes.
+		</p>
+
+		<pre>
+&lt;input type="<strong>time</strong>" name="time"&gt;
+		</pre>
+
+
+		<h2>Date and Time</h2>
+		<figure>
+			<img src="datetime.PNG" alt="iOS DateTime Picker" width="300">
+			<figcaption>iOS DateTime Picker</figcaption>
+		</figure>
+
+		<p>
+			The <code>datetime</code> type will display a picker for selecting both a date and time.
+		</p>
+		<p>
+			It is worth noting that although the is no option for explicitly selecting a year the picker will automatically add a year to your input based on the date and month that you select.
+		</p>
+
+		<pre>
+&lt;input type="<strong>datetime</strong>" name="datetime"&gt;
+		</pre>
+
+
+		<h2>Month</h2>
+		<figure>
+			<img src="month.PNG" alt="iOS Month Picker" width="300">
+			<figcaption>iOS Month Picker</figcaption>
+		</figure>
+
+		<p>
+			The <code>month</code> type will display cut-down version of the date picker.
+		</p>
+		<p>
+			There is also a <code>week</code> input type defined in the HTML5 specification however this does not seem to have been implemented on either iOS or Android.
+		</p>
+
+		<pre>
+&lt;input type="<strong>month</strong>" name="month"&gt;
+		</pre>
+
+		<h2>A Note on Browser Compatibility</h2>
+
+		<p>
+			Browsers that do not support these new input types will just display simple text inputs to users. This means that you can go ahead and start using these new input types straight away!
+		</p>
+		<p>
+			Support for the date/time input types amongst desktop browsers is still very limited. Opera currently has the best implementation, supporting all of the types mentioned in this post. Google Chrome has support for the <code>date</code> type but nothing else at the moment. Safari has date-formatted text fields but does not support the calender widget that is displayed in Opera and Chrome.
+		</p>
+
+		<h2>Final Thoughts</h2>
+		<p>
+			Fortuantely the days of having to endure a sub-standard browsing experience on mobile are swiftly on the way out. By following the principles of Responsive Web Design and taking advantage of the new mobile-friendly features introduced in HTML5 we can ensure that we are delivering an enjoyable experience to everyone, regardless of the device they are using.
+		</p>
+
+		<h2>Useful Links</h2>
+		<ul>
+			<li><a href="http://caniuse.com/#feat=input-datetime" title="Can I use Date/Time inputs" target="_blank" rel="nofollow">Browser Support Date/Time Inputs</a></li>
+			<li><a href="http://developers.whatwg.org/the-input-element.html#attr-input-type" title="WHATWG HTML5 Spec: Input Types" target="_blank" rel="nofollow">WHATWG HTML5 Spec: Input Types</a></li>
+			<li><a href="http://www.alistapart.com/articles/responsive-web-design/" title="Responsive Web Design by Ethan Marcotte (A List Apart)" target="_blank" rel="nofollow">Responsive Web Design by Ethan Marcotte (A List Apart)</a></li>
+		</ul>
+
+	</div>
+</body>
+</html>

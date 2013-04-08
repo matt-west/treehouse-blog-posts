@@ -1,0 +1,266 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Storing Data on The Client with LocalStorage</title>
+  <meta name="description" content="" />
+  <meta name="keywords" content="" />
+
+  <style>
+    img {
+      max-width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div style="width: 680px; margin: 0 auto;">
+
+		<h1>Storing Data on The Client with LocalStorage</h1>
+
+		<p>
+			<img src="localstorage-feature.png" alt="">
+		</p>
+
+		<!-- POST CONTENT -->
+		<p>
+      The LocalStorage API gives front-end web developers access to a simple key-value datastore that can be used to save data on a users computer. Saving data on a client can help to speed up the performance of your web applications as it can reduce the number of database queries that are needed on the server. As well as the bonus of increased performance, this also frees up your web server to deal with more requests, possibly even leading to reduced infrastructure costs.
+    </p>
+    <p>
+      Before the introduction of LocalStorage developers that wanted to store data on the client would need to use browser cookies. While this approach did work it had some problems. The first issue is that the size of a cookie is only 4,096 bytes. This doesn't give allow you store much data. The second issue is that cookies are sent up to the server with every HTTP request that is made by the client. This increases the size of the requests, leading to higher use bandwidth usage and slower request times.
+    </p>
+    <p>
+      In this blog post you are going to learn how you can use LocalStorage in your web applications. Lets go!
+    </p>
+
+    <h2>Checking for Browser Support</h2>
+    <p>
+      LocalStorage is a new technology and therefore it is important that we test for browser support and consider fallbacks for browsers that do not support the API. Testing LocalStorage support is pretty straight forward. All you need to do is create a simple if statement that contains the <code>localStorage</code> interface as the condition. Note the lowercase 'l' in <code>localStorage</code>.
+    </p>
+    <p>
+      The JavaScript code below shows how you can test to see if a browser supports the LocalStorage API.
+    </p>
+
+    <pre>
+if (localStorage) {
+  // LocalStorage is supported!
+} else {
+  // No support. Use a fallback such as browser cookies or store on the server.
+}
+    </pre>
+
+    <p>
+      If the browser does not support LocalStorage you could fallback to using browser cookies or just push the data up to the server to be stored there instead.
+    </p>
+    <p>
+      Now that you understand how to check for support for LocalStorage lets take a look at the API.
+    </p>
+
+
+    <h2>Storing Data in LocalStorage</h2>
+    <p>
+      To store data you use the <code>setItem()</code> function. This function takes two parameters, the item <code>key</code> and a <code>value</code>.
+    </p>
+    <pre>
+localStorage.setItem('name', 'Matt West');
+    </pre>
+
+    <hr>
+    <p>
+      <strong>Note:</strong> There are multiple ways to interact with the localStorage API. In this blog post I use the functions outlined the <a href="http://www.w3.org/TR/webstorage/" rel="nofollow" target="_blank">official specification</a> but you can also treat like the localStorage interface as a JavaScript object or array. The examples below all have the same result.
+    </p>
+    <pre>
+// Functions
+localStorage.setItem('name', 'Matt West');
+
+// Object
+localStorage.name = 'Matt West';
+
+// Array
+localStorage['name'] = 'Matt West';
+    </pre>
+    <p>
+      For the remainder of this blog post I will be using functions to interact with the <code>localStorage</code> interface.
+    </p>
+    <hr>
+
+    <p>
+      Lets take a look at a simple use LocalStorage in a website. The code below is markup for a contact form. When the user submits the form we are going to save their name so that we can use it later to show them a personalised version of our website.
+    </p>
+
+    <pre>
+&lt;form id=&quot;contactForm&quot; action=&quot;contact.php&quot; method=&quot;POST&quot;&gt;
+  &lt;div class=&quot;field&quot;&gt;
+    &lt;label for=&quot;name&quot;&gt;Name&lt;/label&gt;
+    &lt;input type=&quot;text&quot; name=&quot;name&quot; id=&quot;name&quot;&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;field&quot;&gt;
+    &lt;label for=&quot;email&quot;&gt;Email&lt;/label&gt;
+    &lt;input type=&quot;email&quot; name=&quot;email&quot; id=&quot;email&quot;&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;field&quot;&gt;
+    &lt;label for=&quot;message&quot;&gt;Message&lt;/label&gt;
+    &lt;textarea name=&quot;message&quot; id=&quot;message&quot;&gt;&lt;/textarea&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;field&quot;&gt;
+    &lt;input type=&quot;submit&quot; value=&quot;send&quot;&gt;
+  &lt;/div&gt;
+&lt;/form&gt;
+    </pre>
+
+    <p>
+      The JavaScript code below shows how you could intercept the form submission and save the user's name.
+    </p>
+
+    <pre>
+window.onload = function() {
+
+  // Check for LocalStorage support.
+  if (localStorage) {
+
+    // Add an event listener for form submissions
+    document.getElementById('contactForm').addEventListener('submit', function() {
+      // Get the value of the name field.
+      var name = document.getElementById('name').value;
+
+      // Save the name in localStorage.
+      localStorage.setItem('name', name);
+    });
+
+  }
+
+}
+    </pre>
+
+    <p>
+      Now that you know how to save data to the datastore lets take a look at how to get it back out again.
+    </p>
+
+
+    <h2>Retrieving Data from LocalStorage</h2>
+    <p>
+      To retrieve data you use the <code>getItem()</code> function. This takes a single parameter; the <code>key</code> that you used when storing data.
+    </p>
+    <pre>
+var name = localStorage.getItem('name');
+    </pre>
+
+    <p>
+      Building on our previous contact form example, in the code below we retrieve the user's name from the datastore and then update an elements content with the text <code>Hello name!</code>.
+    </p>
+
+    <pre>
+window.onload = function() {
+  ...
+
+  // Retrieve the users name.
+  var name = localStorage.getItem('name');
+
+  if (name != "undefined" || name != "null") {
+    document.getElementById('welcomeMessage').innerHTML = "Hello " + name + "!";
+  } else
+    document.getElementById('welcomeMessage').innerHTML = "Hello!";
+  }
+}
+    </pre>
+    <p>
+      The if statement is used to make sure that there is a name stored in the database, otherwise our program might say <code>Hello undefined!</code>. If you attempt to access data that does not exist the <code>localStorage</code> interface will return either <code>null</code> or <code>undefined</code> depending on how you tried to access the data (see the note earlier in this post).
+    </p>
+    
+
+    <h2>Removing Data from LocalStorage</h2>
+    <p>
+      To remove an item from the datastore you use the <code>removeItem()</code> function. This function takes the <code>key</code> of the item that you wish to delete.
+    </p>
+
+    <pre>
+localStorage.removeItem('name');
+    </pre>
+
+
+    <h2>Clearing the Datastore</h2>
+    <p>
+      If you wanted to delete all of the data in the datastore you can use the <code>clear()</code> function.
+    </p>
+
+    <pre>
+localStorage.clear();
+    </pre>
+
+
+    <h2>Retrieving Keys</h2>
+    <p>
+      The <code>localStorage</code> interface also includes a function, <code>key()</code>, that can be used to retrieve the key of a data item using the index of the item in the datastore. Admittedly you will probably not be using this function very much but it is useful to know that it exists.
+    </p>
+    <p>
+      The JavaScript code below shows how you might use the <code>key()</code> function to output the keys for all of the items in the datastore.
+    </p>
+
+    <pre>
+for (var i = 0; i < localStorage.length; i++) {
+  console.log(localStorage.key(i))
+};
+    </pre>
+
+    <p>
+      Note the use of <code>localStorage.length</code> in this example. The <code>length</code> property tells you how many items are in the datastore.
+    </p>
+
+
+    <h2>Sandboxing and Storage Limits</h2>
+    <p>
+      The data that you add to the LocalStorage datastore is <em>sandboxed</em> to your websites domain name. This means that your web application cannot see the data stored by any other applications and those applications cannot see the data stored by yours. This is an important security measure.
+    </p>
+    <p>
+      Sub-domains (a.example.com, b.example.com, c.example.com) count as different domains and therefore are given their own datastore.
+    </p>
+    <p>
+      There is a limit on how much data you can put in LocalStorage. This limit is set by browser vendors and therefore varies between browsers. To be safe assume that there is only 2.5mb of storage space available. This should be more than enough space as LocalStorage is only designed to hold basic key-value data.
+    </p>
+
+
+    <h2>SessionStorage</h2>
+    <p>
+      Data stored in LocalStorage is persitent. This means that if you store some data, close your browser and then open up your appllication again, all of the data will still be there. You may however only want to store some data for the duration of the user session. In this case you can use the <code>sessionStorage</code> interface. This has all of the same functions that <code>localStorage</code> does but the data you save will automatically be wiped when the users closes your web application.
+    </p>
+
+    <pre>
+// Storing Data
+sessionStorage.setItem('name', 'Matt West');
+
+// Retrieving Data
+var name = sessionStorage.getItem('name');
+
+// Deleting Data
+sessionStorage.removeItem('name');
+
+// Retrieving an Item Key
+sessionStorage.key(n);
+
+// Clearing the Datastore
+sessionStorage.clear();
+    </pre>
+
+
+    <h2>Thoughts on LocalStorage</h2>
+    <p>
+      The LocalStorage API allows developers to make considerbale advances in the performance of their web applications. However looking past this initial advantage, LocalStorage also enables the ability to develop offline web applications as no internet connection is required to access the data. This is especially interesting when you think about the potential applications that LocalStorage has for HTML5 mobile applications.
+    </p>
+    <p>
+      Are you using LocalStorage in any interesting ways in your projects? Let us know in the comments below.
+    </p>
+
+
+    <h2>Useful Links</h2>
+    <ul>
+      <li>
+        <a href="http://www.w3.org/TR/webstorage/" rel="nofollow" target="_blank">WebStorage Specification</a>
+      </li>
+      <li>
+        <a href="http://caniuse.com/#feat=namevalue-storage" rel="nofollow" target="_blank">Can I Use LocalStorage</a>
+      </li>
+    </ul>
+
+	</div>
+</body>
+</html>

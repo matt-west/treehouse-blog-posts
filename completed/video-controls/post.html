@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Building Custom Controls for HTML5 Videos</title>
+  <meta name="description" content="" />
+  <meta name="keywords" content="" />
+
+  <style>
+    img {
+      max-width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div style="width: 680px; margin: 0 auto;">
+
+		<h1>Building Custom Controls for HTML5 Videos</h1>
+
+		<p>
+			<img src="#" alt="">
+		</p>
+
+		<!-- POST CONTENT -->
+		<p>
+      One of my favorite things about HTML5 video is how easy it is to create your own custom controls. This not only allows you to style the controls however you would like but also allows you to create controls that would not usually be found as part of the standard set of video controls. This is all done through a JavaScript API.
+    </p>
+    <p>
+      In this post you are going to learn how to build your own custom controls for HTML5 videos.
+    </p>
+    <p>
+      Lets get started!
+    </p>
+    <p>
+      <!-- TODO: Insert Link -->
+      You can download a copy of all the assets used in this blog post <a href="">here</a>.
+    </p>
+
+    <hr>
+    <p>
+      <strong>NOTE:</strong> A few weeks ago I wrote a post that covered <a href="http://blog.teamtreehouse.com/getting-started-with-html5-video">how to get started with HTML5 video</a>. If you haven't used HTML5 video before I would recommend that you give that post a read first. Go ahead, I'll wait.
+    </p>
+    <hr>
+
+    <h2>Setting up the HTML</h2>
+    <p>
+      The first thing we need to do is write some HTML markup for our video and the video controls. In the spirit of being truly cutting edge I've opted to use range inputs for the sliders but be aware that these are not supported in all browsers yet.
+    </p>
+    <p>
+      You can download the video files and a stylesheet <a href="">here</a>. <!-- TODO: Add link -->
+    </p>
+    <pre>
+&lt;div id="video-container"&gt;
+  &lt;!-- Video --&gt;
+  &lt;video id="video" width="640" height="365"&gt;
+    &lt;source src="videos/mikethefrog.webm" type="video/webm"&gt;
+    &lt;source src="videos/mikethefrog.ogv" type="video/ogv"&gt;
+    &lt;source src="videos/mikethefrog.mp4" type="video/mp4"&gt;
+    &lt;p&gt;
+      Your browser doesn't support HTML5 video.
+      &lt;a href="videos/mikethefrog.mp4"&gt;Download&lt;/a&gt; the video instead.
+    &lt;/p&gt;
+  &lt;/video&gt;
+  &lt;!-- Video Controls --&gt;
+  &lt;div id="video-controls"&gt;
+    &lt;button type="button" id="play-pause" class="play"&gt;Play&lt;/button&gt;
+    &lt;input type="range" id="seek-bar" value="0"&gt;
+    &lt;button type="button" id="mute"&gt;Mute&lt;/button&gt;
+    &lt;input type="range" id="volume-bar" min="0" max="1" step="0.1" value="1"&gt;
+    &lt;button type="button" id="full-screen"&gt;Full-Screen&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+    </pre>
+    <p>
+      Here you have created play/pause, mute and full screen buttons and two slider, one that will be used to move around within the video and another to control the volume.
+    </p>
+    <p>
+      That's all the HTML that you are going to need to get things working. If you view this in a browser you should see a video on the page. When you hover over the video with your mouse cursor the controls should appear, as shown in te figure below. This hover effect is achieved using CSS and CSS3 transitions.
+    </p>
+    <img src="" alt="">
+
+    <h2>Setting up You JavaScript</h2>
+    <p>
+      Lets dive into writing the JavaScript that will bring our video controls to life.
+    </p>
+    <p>
+      Create a new JavaScript file called <code>script.js</code> and link it up to your HTML page using a <code>&lt;script&rt;</code> element.
+    </p>
+    <pre>
+&lt;script src="script.js"&gt;&lt;/script&gt;
+    </pre>
+    <p>
+      Now open up this JavaScript file and add the following code to it. 
+    </p>
+    <pre>
+window.onload = function() {
+
+  // Video
+  var video = document.getElementById("video");
+
+  // Buttons
+  var playButton = document.getElementById("play-pause");
+  var muteButton = document.getElementById("mute");
+  var fullScreenButton = document.getElementById("full-screen");
+
+  // Sliders
+  var seekBar = document.getElementById("seek-bar");
+  var volumeBar = document.getElementById("volume-bar");
+
+}
+    </pre>
+    <p>
+      Here you have created a number of variables and initialised them with the video and controls from your HTML markup.
+    </p>
+
+
+    <h2>Hooking up the Play/Pause Button</h2>
+    <p>
+      The first video control we are going to tackle is the play/pause button. To get this working you will need to setup an event listener that checks whether the video is currently playing and then toggles playback appropraitely. You can check the <code>paused</code> property of your video to examine the current playback state.
+    </p>
+    <pre>
+// Event listener for the play/pause button
+playButton.addEventListener("click", function() {
+  if (video.paused == true) {
+    // Play the video
+    video.play();
+
+    // Update the button text to 'Pause'
+    playButton.innerHTML = "Pause";
+  } else {
+    // Pause the video
+    video.pause();
+
+    // Update the button text to 'Play'
+    playButton.innerHTML = "Play";
+  }
+});
+    </pre>
+    <p>
+      Here you have set up an event listener for the <code>click</code> event on your play/pause button and used an <code>if</code> statement to toggle the video playback. You've also added some code that will update the text displayed on the button.
+    </p>
+
+    <h2>Hooking up the Mute Button</h2>
+    <p>
+      To get the mute button working you need to follow a similar process to the one you used for the play/pause button. This time however you need to examine the <code>muted</code> property of the video and toggle its value appropriately.
+    </p>
+    <pre>
+// Event listener for the mute button
+muteButton.addEventListener("click", function() {
+  if (video.muted == false) {
+    // Mute the video
+    video.muted = true;
+
+    // Update the button text
+    muteButton.innerHTML = "Unmute";
+  } else {
+    // Unmute the video
+    video.muted = false;
+
+    // Update the button text
+    muteButton.innerHTML = "Mute";
+  }
+});
+    </pre>
+    <p>
+      When the mute button is clicked this event listener will toggle the value of the <code>muted</code> property on the video. You have also added some code that will update the button text.
+    </p>
+
+
+    <h2>Kicking it Full-Screen</h2>
+    <p>
+      Many modern web browsers have implemented a full screen API that allows you to give full screen focus to certain HTML elements. This is really great for interactive media like videos.
+    </p>
+    <p>
+      To get the full screen button working you need to set up another event listener that will call the <code>requestFullScreen()</code> function when the button is clicked. To ensure that this will work across all supported browsers you are also going to need to check to see if the <code>requestFullScreen()</code> is available and fallbacks to the vendor prefixed versions, <code>mozRequestFullScreen()</code> and <code>webkitRequestFullscreen()</code>.
+    </p>
+    <pre>
+// Event listener for the full-screen button
+fullScreenButton.addEventListener("click", function() {
+  if (video.requestFullscreen) {
+    video.requestFullscreen();
+  } else if (video.mozRequestFullScreen) {
+    video.mozRequestFullScreen(); // Firefox
+  } else if (video.webkitRequestFullscreen) {
+    video.webkitRequestFullscreen(); // Chrome and Safari
+  }
+});
+    </pre>
+    <p>
+      Now if you reload the page and click the full screen button it should launch the video into full screen view. Pretty neat.
+    </p>
+
+
+    <h2>Hooking up the Seek Bar</h2>
+    <p>
+      That's all the buttons sorted. Now lets take a look at that seek bar. This one gets a little more complicated so we're going to approach it in three phases. TO start with lets hook it up so that dragging the slider handle changes the position in the video. To do this you need to setup an event listener on the <code>seekBar</code> that will execute when the <code>change</code> event is fired. You then need to calculate the time in the video that playback should be skipped to and update the time of the video.
+    </p>
+    <pre>
+// Event listener for the seek bar
+seekBar.addEventListener("change", function() {
+  // Calculate the new time
+  var time = video.duration * (seekBar.value / 100);
+
+  // Update the video time
+  video.currentTime = time;
+});
+  </pre>
+  <p>
+    Here you have calculated the time by taking the total time of the video (accessed using the <code>duration</code> property) and multiplying that by the value of the <code>seekBar</code> divided by 100. To update the position in the video you set the <code>currentTime</code> property of the video to the time you just calculated.
+  </p>
+  <p>
+    This basic implementation works but you might have noticed that the position of the slider handle doesn't move as the video plays. To fix this you need to setup an event listener on the <code>video</code> that executes when the <code>timeupdate</code> event is fired. You then reverse the calculation that was used previosuly in order to get the value that the <code>seekBar</code> should be set to. The <code>timeupdate</code> event is fired continously as the video plays.
+  </p>
+  <pre>
+// Update the seek bar as the video plays
+video.addEventListener("timeupdate", function() {
+  // Calculate the slider value
+  var value = (100 / video.duration) * video.currentTime;
+
+  // Update the slider value
+  seekBar.value = value;
+});
+  </pre>
+  <p>
+    Now if you reload the page and start the video you should see that the slider handle moves along as the video plays.
+  </p>
+  <p>
+    There's just one more bug that we need to fix with the seek bar. If you slowly drag the slider handle you will notice that the video keeps trying to play, resulting in a jerky playback. To fix this you need to pause the video when the slider handle is clicked and the play it again once the handle is dropped. You can do this by using two event listeners that execute when the <code>mousedown</code> and <code>mouseup</code> events are fired. Pause the video on <code>mousedown</code> and play it again on <code>mouseup</code>
+  </p>
+  <pre>
+// Pause the video when the seek handle is being dragged
+seekBar.addEventListener("mousedown", function() {
+  video.pause();
+});
+
+// Play the video when the seek handle is dropped
+seekBar.addEventListener("mouseup", function() {
+  video.play();
+});
+    </pre>
+
+
+    <h2>Hooking up the Volume Control</h2>
+    <p>
+      The final control to implement is the volume slider. For this you need to setup an event listener for the <code>change</code> event. When this event fires you just need to take the value from the slider and use it to update the value of the videos <code>volume</code> property. The <code>volume</code> property should always have a value between 0. If you look back at your HTML markup you can see that we used the <code>min</code> and <code>max</code> attributes on the volume input to enforce this requirement.
+    </p>
+    <pre>
+// Event listener for the volume bar
+volumeBar.addEventListener("change", function() {
+  // Update the video volume
+  video.volume = volumeBar.value;
+});
+    </pre>
+    <p>
+      That's it! Congratulations you just created your very own controls for a HTML5 video.
+    </p>
+
+    <h2>In Summary</h2>
+    <p>
+      HTML5 video opens up a lot of cool new opportunities for developers. Being able to easily create your own custom controls is just one of them.
+    </p>
+    <p>
+      If you build some cool looking controls for your videos post a link in the comments below. It would be awesome to see them!
+    </p>
+
+
+    <h2>Useful Links</h2>
+    <ul>
+      <li>
+        <a href="" target="_blank"></a>
+      </li>
+    </ul>
+
+	</div>
+</body>
+</html>

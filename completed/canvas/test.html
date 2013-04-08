@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Getting Started With The Canvas API</title>
+  <meta name="description" content="" />
+  <meta name="keywords" content="" />
+
+  <style>
+    img {
+      max-width: 100%;
+    }
+
+    canvas {
+      border: 1px solid #000;
+    }
+  </style>
+  <script>
+window.onload = function() {
+  // Get the canvas element.
+  var canvas = document.getElementById('myCanvas');
+
+  // Check to see if the browser supports the Canvas API.
+  if (canvas.getContext) {
+
+    // Initialize a 2d drawing context.
+    var ctx = canvas.getContext('2d');
+
+
+    var img = new Image();
+img.onload = function() {
+  ctx.drawImage(img, 10, 10);
+}
+img.src = "image.png";
+
+
+  }
+
+}
+  </script>
+</head>
+<body>
+  <canvas id="myCanvas" width="400" height="200">
+    <p>Your web browser does not support canvas!</p>
+  </canvas>
+</body>
+</html>

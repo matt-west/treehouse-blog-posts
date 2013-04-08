@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Quick Tips For Speeding Up Page Load Times</title>
+  <meta name="description" content="" />
+  <meta name="keywords" content="" />
+
+  <style>
+    img {
+      max-width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div style="width: 680px; margin: 0 auto;">
+
+		<h1>Quick Tips For Speeding Up Page Load Times</h1>
+
+		<p>
+			<img src="page-speed-feature.png" alt="">
+		</p>
+
+		<!-- POST CONTENT -->
+		<p>
+      The average size of a web page has been growing at an accelerating rate over the last few years. Research carried out by <a href="http://httparchive.org/interesting.php#bytesperpage" target="_blank">HTTP Archive</a> in January reports that the average page size has now hit 1.25mb.
+    </p>
+    <p>
+      For users with a decent broadband connection this is not too troublesome, but for users that still rely on slow dial-up connections (like in many developing countries) or crippled mobile data networks this poses a real issue.
+    </p>
+    <p>
+      In 2011, KISSmetrics created an <a href="http://blog.kissmetrics.com/loading-time/" target="_blank">infographic</a> showing how page load times can have a direct impact on user engagement. The data is most likely a little out of date now but the general principle is still valid.
+    </p>
+    <p>
+      In this blog post you are going to learn about a number of techniques that you can deploy to help reduce the size of your web pages and speed up your page load times.
+    </p>
+
+    <h2>Optimize Images</h2>
+    <p>
+      One of the easiest ways to decrease the size of your web pages and increase load times is to properly resize and optimize your images. Using images that are larger than they will be displayed in your web page means that there is a lot of data being transfered that is not needed.
+    </p>
+    <p>
+      Once you have resized your images there are a number really handy tools like <a href="http://www.smushit.com/ysmush.it/" target="_blank">Smush.it</a> and <a href="http://tinypng.org/" target="_blank">TinyPNG</a> to reduce the size of the files further. These tools work by removing unnecessary data from the images and optimizing their use of colors.
+    </p>
+
+
+    <h2>Minify CSS &amp; JavaScript Code</h2>
+    <p>
+      Minifying your CSS and JavaScript code can help to reduce the size of these assets by removing unneeded whitespace and optimizing your code. Minifying your code does make it incredibly difficult for humans to read so I would only minify when you are ready to launch a site.
+    </p>
+    <p>
+      <a href="http://www.minifycss.com/css-compressor/" target="_blank">CSS Compressor</a> and <a href="http://www.minifyjavascript.com/" target="_blank">JavaScript Compressor</a> are two handy web apps that can minify your code.
+    </p>
+
+
+    <h2>Avoid using @import</h2>
+    <p>
+      The <code>@import</code> CSS rule allows you to load other CSS files into your stylesheet. Whilst this can sometimes be useful, files loaded through <code>@import</code> cannot be donwloaded at the same time as the master stylesheet which increases the overall load time of the page.
+    </p>
+    <p>
+      Instead of using <code>@import</code> consider copying the CSS from the external file into your master stylesheet or use multiple <code>&lt;link&gt;</code> tags.
+    </p>
+
+
+    <h2>Reduce The Number of HTTP Requests</h2>
+    <p>
+      Another great way of speeding up your web pages is to simply reduce the number of files that need to be loaded. There a few ways that you can do this. Let's take a look at two of the most popular.
+    </p>
+
+    <h3>Combine Files</h3>
+    <p>
+      Combining multiple stylesheets into one file is a really useful way of eliminating extra HTTP requests. This strategy can also be adopted for your JavaScript files. A single larger CSS or JavaScript file will often load quicker because more time can be spent downloading the data rather than establishing multiple connections to a server.
+    </p>
+
+    <h3>Use CSS Sprites</h3>
+    <p>
+      Using CSS sprites can be a great way of reducing the number of HTTP requests your page needs to load. A CSS sprite is a collection of images within a single image file. They are particularly useful for instances where you have a lot of small icons. You set the background image of a HTML element to the sprite using CSS and then use some clever CSS code to position the background image so that only the image within the sprite that you wish to use is visible.
+    </p>
+    <p>
+      For more information on using CSS sprites check out <a href="http://css-tricks.com/css-sprites/" target="_blank">this article</a> from CSS-Tricks.
+    </p>
+
+
+    <h2>Leverage Browser Caching</h2>
+    <p>
+      Your website likely contains files that don't change very often. Things like images, CSS files and JavaScript files. You can help to speed up your page load times by instructing the browse to cache a copy of these files on the hard drive so that next time the user visits your web page these resources will not need to be loaded again.
+    </p>
+    <p>
+      To leverage browser caching you need to update your web server configuration to serve up resources with <code>Expires</code> headers. This is what tells the browser how long it should store the cached files for.
+    </p>
+    <p>
+      The easiest way to update your server configuration for Apache servers is to use a <code>.htaccess</code> file. The code below shows an example configuration that would set all image, CSS and JavaScript resources to be cached for 1 month.
+    </p>
+<pre>
+&lt;IfModule mod_expires.c&gt;
+
+# Enable Expirations
+ExpiresActive On
+
+# Default Exipration Time
+ExpiresDefault "access plus 1 month"
+
+# Expiration for Images
+ExpiresByType image/gif "access plus 1 month"
+ExpiresByType image/png "access plus 1 month"
+ExpiresByType image/jpg "access plus 1 month"
+ExpiresByType image/jpeg "access plus 1 month"
+
+# Expiration for CSS
+ExpiresByType text/css "access plus 1 month”
+
+# Expiration for JavaScript
+ExpiresByType application/javascript "access plus 1 month"
+
+&lt;/IfModule&gt;
+</pre>
+    <p>
+      For more information on browser caching check out <a href="https://developers.google.com/speed/docs/best-practices/caching" target="_blank">this page</a> on the Google Developers website.
+    </p>
+
+
+    <h2>Tools for Testing Page Load Times</h2>
+    <p>
+      There are some fantastic tools available that can help you to test the performance of your webistes. In this section you are going to learn about three of my favorites.
+    </p>
+
+    <h3>PageSpeed</h3>
+    <p>
+      PageSpeed is a tool from Google that can analyze your web pages and give you pointers on what to do to improve performance. The tool will provide you with an overall 'PageSpeed Score' that allows you to quickly see how well optimized a page is.
+    </p>
+    <p>
+      You can either install PageSpeed as an <a href="https://developers.google.com/speed/pagespeed/insights_extensions" target="_blank">extension for Chrome or Firefox</a>, or use the <a href="https://developers.google.com/speed/pagespeed/insights" target="_blank">online tool</a>.
+    </p>
+
+    <h3>Speed Tracer</h3>
+    <p>
+      <a href="https://developers.google.com/web-toolkit/speedtracer/" target="_blank">Speed Tracer</a> is another tool from Google that allows you to take a more in-depth look into the performance of your web pages. Instead of making recommendations this tool just provides you with the data that you need to identify performance bottlenecks in your web pages. The tool does however flag tasks and events that take a long time to complete.
+    </p>
+
+    <h3>YSlow</h3>
+    <p>
+      <a href="http://developer.yahoo.com/yslow/" target="_blank">YSlow</a> is a browser extension from Yahoo! that is very similar to PageSpeed. Running YSlow against your web pages will give you a score and a grade that can be used to track the impact of your performance optimizations. Like PageSpeed, YSlow also gives you recommendations of things to do to increase performance.
+    </p>
+
+    <h3>Developer Tools</h3>
+    <p>
+      As well as using the tools mentioned above many browser like Chrome and FireFox come with built-in developer tools that you can use to help find areas where performance could be increased. The 'Network' tab in the Chromer developer tools for example can be really useful for identifying large files that take a long time to load.
+    </p>
+
+
+    <h2>Summary</h2>
+    <p>
+      As we start to use more and more fantastic in-browser technologies, we need to be conscious of the impact that using these technologies has on page load times.
+    </p>
+    <p>
+      In this post I have covered a number of methods that you can adopt to increase the performance of your web pages. However this has by no means been an exhaustive list. Using the tools that are outlined above you will be able to identify loads more tips for enhancing the performance of your web pages.
+    </p>
+
+    <h2>Useful Links</h2>
+    <ul>
+      <li>
+        <a href="http://developer.yahoo.com/yslow/" target="_blank" rel="nofollow">YSlow</a>
+      </li>
+      <li>
+        <a href="https://developers.google.com/speed/pagespeed/" target="_blank" rel="nofollow">PageSpeed</a>
+      </li>
+      <li>
+        <a href="https://developers.google.com/web-toolkit/speedtracer/" target="_blank" rel="nofollow">Speed Tracer</a>
+      </li>
+      <li>
+        <a href="https://developers.google.com/speed/docs/best-practices/" target="_blank" rel="nofollow">Google Performance Best Practices</a>
+      </li>
+      <li>
+        <a href="http://css-tricks.com/css-sprites/" target="_blank" rel="nofollow">CSS Sprites</a>
+      </li>
+    </ul>
+
+	</div>
+</body>
+</html>

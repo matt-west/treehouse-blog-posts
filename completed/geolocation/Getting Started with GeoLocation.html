@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Getting Started with GeoLocation</title>
+  <meta name="generator" content="iA Writer for Mac 1.4 (1.4)" />
+  <meta name="description" content="" />
+  <meta name="keywords" content="" />
+
+  <style>
+    img {
+      max-width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div style="width: 680px; margin: 0 auto;">
+
+    <h1>Getting Started with GeoLocation</h1>
+    <p>
+      The GeoLocation API is one of the most exciting new web technologies to surface in recent years. The API allows you to pinpoint a user's location by taking advantage of a devices location capabilities (such as a GPS receiver). You can also use the API with devices that don't have GPS. In these cases the location will be determined using WiFi or the devices IP address. It is worth noting that this is significantly less accurate than using GPS.
+    </p>
+    <p>
+      In this tutorial you are going to learn how to use the GeoLocation API to build location aware web applications. You will be creating a mini web application that uses the GeoLocation API to detect a user's location and then display that location on a Google Map.
+    </p>
+
+    <h2>Lets Get Started</h2>
+    <p>
+      First off, you need to setup a couple of HTML and JavaScript files that will hold the code for your mini web application.
+    </p>
+
+    <aside style="background: #F7F7F7; border: 1px solid #EEE; padding: 1em;">
+      <strong>Note!</strong>
+      <p>
+        You will need to run a local development server on your computer for the GeoLocation API to work correctly. If you don't already have a local development server installed you can get one at the links below.
+      </p>
+      <ul>
+        <li>Mac - <a href="http://www.apachefriends.org/en/xampp-linux.html" rel="nofollow" target="_blank">http://www.apachefriends.org/en/xampp-linux.html</a></li>
+        <li>Linux - <a href="http://www.apachefriends.org/en/xampp-macosx.html" rel="nofollow" target="_blank">http://www.apachefriends.org/en/xampp-macosx.html</a></li>
+        <li>Windows - <a href="http://www.apachefriends.org/en/xampp-windows.html" rel="nofollow" target="_blank">http://www.apachefriends.org/en/xampp-windows.html</a></li>
+      </ul>
+    </aside>
+
+    <ol>
+      <li>
+        <p>
+          Create a new directory for your application called <code>geolocation</code>. Make sure that this is created in a place that is accessible by your local development server.
+        </p>
+      </li>
+      <li>
+        <p>
+          Now create a HTML file called <code>index.html</code> and a JavaScript file called <code>script.js</code>. Save both of these files in the <code>geolocation</code> directory.
+        </p>
+      </li>
+      <li>
+        <p>
+          Open the <code>index.html</code> file in your favourite text editor and add the following HTML markup to it.
+        </p>
+
+        <pre>
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;utf-8&quot;&gt;
+  &lt;title&gt;GeoLocation&lt;/title&gt;
+
+  &lt;style&gt;
+    html, body, #map {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+    }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div id=&quot;map&quot;&gt;&lt;/div&gt;
+
+  &lt;script src=&quot;https://maps.googleapis.com/maps/api/js?v=3.exp&amp;sensor=false&quot;&gt;&lt;/script&gt;
+  &lt;script src=&quot;script.js&quot;&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+        </pre>
+
+        <p>
+          This code sets up the main web page that will display your mini web application. You have included two JavaScript files. The first loads a JavaScript library for the Google Maps API (you will be using this later on), and the second loads the <code>script.js</code> file that you created earlier. You have also added a <code>&lt;div&gt;</code> element that will contain the map and some basic CSS code that will style this <code>&lt;div&gt;</code> so that it takes up the whole browser window.
+        </p>
+      </li>
+    </ol>
+
+    <h2>Finding a Users Location</h2>
+    <p>
+      Now that you have got your HTML file setup and some basic styling sorted it's time to start writing the JavaScript code that will pinpoint the user's location.
+    </p>
+    <ol>
+      <li>
+        <p>
+          Start by opening the <code>script.js</code> file in your favourite text editor.
+        </p>
+      </li>
+      <li>
+        <p>
+          Now add the following code to the top of the file. Everything that you place between the curly braces will be executed when the page loads.
+        </p>
+        <pre>
+window.onload = function() {
+
+}
+        </pre>
+      </li>
+      <li>
+        <p>
+          You need to check if the user's browser supports geolocation. You can do this by looking for a <code>geolocation</code> object on the browsers <code>navigator</code> object. Browsers that do not support geolocation will not have a <code>geolocation</code> object.
+        </p>
+        <pre>
+// Check to see if the browser supports the GeoLocation API.
+if (navigator.geolocation) {
+
+} else {
+  // Print out a message to the user.
+  document.write('Your browser does not support GeoLocation');
+}
+        </pre>
+        <p>
+          In the else statement you have added a message that will be displayed to the user if the browser does not support geolocation.
+        </p>
+      </li>
+      <li>
+        <p>
+          Now that you know whether the user's browser supports geolocation you can write the code that will request the devices location. You do this using the <code>geolocation</code> objects <code>getCurrentPosition()</code> function. Add the following code to the if block in your if/else statement.
+        </p>
+        <pre>
+// Get the location
+navigator.geolocation.getCurrentPosition(function(position) {
+
+});
+        </pre>
+        <p>
+          The <code>getCurrentPosition()</code> function should itself contain a function. A <code>Position</code> object will be passed to this function, which can then be examined to retrieve the location data.
+        </p>
+      </li>
+      <li>
+        <p>
+          Great, so now you have the <code>position</code> object you can extract the latitude and longitude values. To do this you need to access the <code>position</code> objects, <code>coords</code> interface and then from there you can access the <code>latitude</code> and <code>longitude</code> properties. Copy these two lines within the function block in you <code>getCurrentPosition()</code> call.
+        </p>
+        <pre>
+var lat = position.coords.latitude;
+var lon = position.coords.longitude;
+        </pre>
+      </li>
+      <li>
+        <p>
+          The last thing to do now is to add a call to the <code>showMap()</code> function, passing in the <code>lat</code> and <code>lon</code> variables as parameters. Add this line below the code you added in step 5.
+        </p>
+        <pre>
+// Show the map
+showMap(lat, lon);
+        </pre>
+        <p>
+          You will write the <code>showMap()</code> function in the next section.
+        </p>
+      </li>
+    </ol>
+
+
+    <h2>Displaying the Users Location on a Map</h2>
+
+    <p>
+      Now that you have successfully obtained the user's location let's display it on a map. To do this you will be using the Google Maps JavaScript API.
+    </p>
+
+    <ol>
+      <li>
+        <p>
+          At the very bottom of your <code>script.js</code> file create a new function called <code>showMap</code> that has two parameters, <code>lat</code> and <code>lon</code>.
+        </p>
+        <pre>
+// Show the user's position on a Google map.
+function showMap(lat, lon) {
+
+}
+        </pre>
+      </li>
+      <li>
+        <p>
+          First you need to create a <code>LatLng</code> object for the Google Maps API. This object is used to position the map later. Add the following lines to the <code>showMap()</code> function.
+        </p>
+        <pre>
+// Create a LatLng object with the GPS coordinates.
+var myLatLng = new google.maps.LatLng(lat, lon);
+        </pre>
+      </li>
+      <li>
+        <p>
+          Now you need to setup some map options. These options define the zoom level, center point and map type. You can see a full list of map options and possible values in the <a href="https://developers.google.com/maps/documentation/javascript/tutorial#MapOptions" rel="nofollow" target="_blank">Google Maps API docs</a>. Add this code to your <code>showMap()</code> function.
+        </p>
+        <pre>
+// Create the Map Options
+var mapOptions = {
+  zoom: 8,
+  center: myLatLng,
+  mapTypeId: google.maps.MapTypeId.ROADMAP
+};
+        </pre>
+      </li>
+      <li>
+        <p>
+          At this stage we are ready to generate the map. To do this you need to retrive the <code>&lt;div&gt;</code> element that you created in your HTML markup and pass it to the Google Maps API. You also pass in the <code>mapOptions</code> object that you created in the previous step.
+        </p>
+        <pre>
+// Generate the Map
+var map = new google.maps.Map(document.getElementById('map'), mapOptions);
+        </pre>
+      </li>
+      <li>
+        <p>
+          If you save the <code>script.js</code> file and open the <code>index.html</code> file in your web browser you should now see a map that is centered on your location. The last thing to do is to add a marker to make the user's location clearer. Add the following code to the bottom of your <code>showMap()</code> function.
+        </p>
+        <pre>
+// Add a Marker to the Map
+var marker = new google.maps.Marker({
+  position: myLatLng,
+  map: map,
+  title: 'Found you!'
+});
+        </pre>
+      </li>
+      <li>
+        <p>
+          Your done! Save your <code>script.js</code> file and open up <code>index.html</code>. You should now see a red marker on the map, as shown in the figure below.
+        </p>
+      </li>
+    </ol>
+
+    <figure>
+      <img src="map-screenshot-with-marker.png" alt="Screenshot of the map with a position marker">
+      <figcaption>
+        The finished geolocation app, with red position marker.
+      </figcaption>
+    </figure>
+
+    <aside style="background: #F7F7F7; border: 1px solid #EEE; padding: 1em;">
+      <p>
+        <strong>Having Problems?</strong>
+      </p>
+      <p>
+        You can find all of the code for this tutorial on <a href="https://github.com/matt-west/simple-geolocation-example/" rel="nofollow" target="_blank">GitHub</a>.
+      </p>
+    </aside>
+
+    <h2>In closing...</h2>
+    <p>
+      In this tutorial you have used the GeoLocation and Google Maps APIs to create your very own mini web application. The GeoLocation API is one of my favorite new technologies to come to the web in recent years. It is incredibly useful for building location aware web applications and for enhancing the functionality of existing webistes.
+    </p>
+    <p>
+      Are you using the GeoLocation API in any of your own projects?
+    </p>
+    <p>
+        Let us know in the comments below.
+    </p>
+
+    <h3>Further Reading and Links</h3>
+    <ul>
+      <li>
+        <a href="https://developers.google.com/maps/documentation/javascript/" rel="nofollow" target="_blank">Google Maps API Documentation</a>
+      </li>
+      <li>
+        <a href="https://github.com/matt-west/simple-geolocation-example" rel="nofollow" target="_blank">Tutorial Code on GitHub</a>
+      </li>
+      <li>
+        <a href="http://www.w3.org/TR/geolocation-API/" rel="nofollow" target="_blank">W3C GeoLocation API Specification</a>
+      </li>
+    </ul>
+
+
+  </div>
+</body>
+</html>

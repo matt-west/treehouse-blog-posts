@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Using Web Workers to Manage The Heavy Lifting</title>
+  <meta name="description" content="" />
+  <meta name="keywords" content="" />
+
+  <style>
+    img {
+      max-width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div style="width: 680px; margin: 0 auto;">
+
+		<h1>Using Web Workers to Manage The Heavy Lifting</h1>
+
+		<p>
+			<img src="workers-feature.png" alt="">
+		</p>
+
+		<!-- POST CONTENT -->
+		<p>
+      The performance of JavaScript applications running in the browser has increased considerably over the past few years. This is mainly due to continued work on the underlying JavaScript engines, such as <a href="http://code.google.com/p/v8/" target="_blank">V8</a> (the JS engine used in Chrome). The problem is that as these JavaScript engines get faster, our web applications also demand more.
+    </p>
+    <p>
+      The introduction of JavaScript APIs like the <a href="http://www.w3.org/TR/FileAPI/" target="_blank">File API</a> has made it possible to write JavaScript applications that are undertaking some serious computational tasks on the client-side. Despite the improvements in JavaScript engines, it is not uncommon for users to encounter frozen user interfaces as the browser works through resource intensive tasks. This leads to a horrible user experience. The purpose of Web Workers is to enable developers to instruct the browser to process resource intensive tasks in the background, therefore preventing the UI from freezing up.
+    </p>
+    <p>
+      In this blog post you are going to learn how to build multi-thread JavaScript applications using Web Workers.
+    </p>
+
+
+    <h2>An Introduction to Web Workers and Threads</h2>
+    <p>
+      The JavaScript code that you write will usually execute in a single <em>thread</em>. A thread is like a big todo list. Each statement that you write is added to the list as a task, which the browser then executes one at a time. The issue that a single-threaded architecture poses is that if a particular task takes a long time to complete everything else is held up until it finishes. This is known as <em>blocking</em>. In the world of client-side JavaScript applications, using a single-threaded architecture can lead to your app becoming slow or even completely unresponsive.
+    </p>
+    <p>
+      Web Workers provide a facility for creating new threads for executing your JavaScript code in. Effectively creating a <em>multi-threaded</em> architecture in which the browser can execute multiple tasks at once. Creating new threads for handling large tasks allows you to ensure that your app stays responsive and doesn't freeze up.
+    </p>
+    <p>
+      For a demo of the performance impact that using workers can have check out <a href="http://nerget.com/rayjs-mt/rayjs.html" target="_blank">this demo</a>. First set the number of workers to 'disabled' and record the time it takes for the image to be drawn. Then set the number of workers to '1' and run the demo again. You should see a considerable difference in the time it takes to draw the image.
+    </p>
+    <p>
+      Now that you have an understanding of the role that web workers play in JavaScript applications lets take a look at how you can use them in your own projects.
+    </p>
+
+
+    <h2>Spawning a Worker</h2>
+    <p>
+      Creating Web Workers is a fairly simple task. First you need to create a new JavaScript file that contains all of the code that you want your worker to execute. You then create a new <code>Worker</code> object, passing in the path to the file that contains the code that your worker is to execute.
+    </p>
+    <pre>
+var worker = new Worker('work.js');
+    </pre>
+    <p>
+      Once you have created your worker you can fire it up using the <code>postMessage()</code> function. Later in this blog post you will learn how to use this function to pass data to a web worker.
+    </p>
+    <pre>
+worker.postMessage();
+    </pre>
+    <p>
+      That's it! You now have a functioning web worker that is executing code in it's own thread.
+    </p>
+    <hr>
+    <p>
+      <strong>NOTE:</strong> Creating web workers will spawn real OS-level threads. Just be conscious that this will effect the performance of the user's whole computer, not just the web browser.
+    </p>
+    <hr>
+
+
+    <h2>Communicating with a Web Worker</h2>
+    <p>
+      So you now know how to creat Web Workers but for you to be able to use these in real-world applications you need to know how to pass data between your main application and the web worker. You do this using messages. These messages can be either simple strings or JavaScript objects.
+    </p>
+    <p>
+      To send some data from your main application to a web worker you call the <code>postMessage()</code> function on your worker object.
+    </p>
+    <pre>
+<strong>/* File: main-script.js */</strong>
+
+var worker = new Worker('respond.js');
+
+worker.postMessage('Hello World');
+    </pre>
+    <p>
+      You now need to write some code in your worker script that will listen for, and process, messages coming from the main application. Inside your worker script you would setup an event listen for the <code>message</code> event.
+    </p>
+    <pre>
+<strong>/* File: respond.js */</strong>
+
+// Seup an event listener that will handle messages sent to the worker.
+self.addEventListener('message', function(e) {
+  // Send the message back.
+  self.postMessage('You said: ' + e.data);
+}, false);
+    </pre>
+    <p>
+      In this example the worker will prepend the text 'You said: ' to the original message and send it back to the application. When sending data from inside a worker you still use the <code>postMessage()</code> function, however this time you call the function on <code>self</code>.
+    </p>
+    <p>
+      The final step is to setup an event listener back in the original application that will listen for messages that are sent by the worker.
+    </p>
+    <pre>
+<strong>/* File: main-script.js */</strong>
+
+var worker = new Worker('respond.js');
+
+<strong>// Setup an event listener that will handle messages received from the worker.
+worker.addEventListener('message', function(e) {
+  // Log the workers message.
+  console.log(e.data);
+}, false);</strong>
+
+worker.postMessage('Hello World');
+    </pre>
+    <p>
+      The event listener in this example will simply log the message from the worker to the console. The whole communication would look like the following:
+    </p>
+    <pre>
+<strong>Application (to worker):</strong> Hello World
+<strong>Worker:</strong> You said: Hello World
+<strong>Application (to console):</strong> You said: Hello World
+    </pre>
+
+
+    <h2>Terminating a Worker</h2>
+    <p>
+      Once you are done with a worker you can terminate it by calling the <code>terminate</code> function on your worker object. To have a worker terminate itself you need to call the <code>close()</code> function on <code>self</code>.
+    </p>
+    <pre>
+// Kill a worker from your application.
+worker.terminate();
+
+// Have a worker kill itself.
+self.close();
+    </pre>
+    <p>
+      You should always use workers responsibly and terminate them when they have finished executing their given task. This helps to free up resources for other applications on the user's computer.
+    </p>
+
+
+    <h2>Limitations of Web Workers</h2>
+    <p>
+      Web Workers are fantastic but they do have a few limitations.
+    </p>
+    <h3>Same Origin Policy</h3>
+    <p>
+      All of your worker scripts must be served from the same domain as the script that is attempting to create the worker. This also applies to the protocol. For example a <code>https</code> page cannot call on a worker served using <code>http</code>.
+    </p>
+    <h3>Limited Access</h3>
+    <p>
+      Web Workers do not have the same access to JavaScript features as your main application does. Your workers do <strong>not</strong> not have access to:
+    </p>
+    <ul>
+      <li>The DOM</li>
+      <li>The <code>document</code> object</li>
+      <li>The <code>window</code> object</li>
+      <li>The <code>parent</code> object</li>
+    </ul>
+    <p>
+      If you are using a worker to handle a task that ultimately needs to update the mian user interface, you will need to use the messaging system to pass the data between the worker and the main application. Similarly, if your worker needs access to data from the <code>document</code>, <code>window</code> or <code>parent</code> objects you will need to send it in the <code>postMessage()</code> call that is used to start the worker.
+    </p>
+    <h3>Restricted Local Access</h3>
+    <p>
+      Web Workers will not work if the web page is being served locally (using <code>file://</code>). Instead you will need to use a local development server such as <a href="http://www.apachefriends.org/en/xampp.html" target="_blank">XAMPP</a>.
+    </p>
+
+
+    <h2>Final Thoughts</h2>
+    <p>
+      Although web workers have been around for a few years now adoption by the developer community has sadly been limited. Using web workers can have a significant impact on the performance of our web applications, and more responsive applications tends to lead to happy customers. I don't know anyone that doesn't want their users to have a great experience when using their products.
+    </p>
+    <p>
+      Web workers are a core part of HTML5. They allow us to create applications that can harness the power of the client and take advantage of fantastic new technologies without worrying about diminishing the experience for the end user.
+    </p>
+    <p>
+      It would be great to hear how you are using web workers in your projects. Let us know in the comments below.
+    </p>
+
+
+    <h2>Useful Links</h2>
+    <ul>
+      <li>
+        <a href="http://www.html5rocks.com/en/tutorials/workers/basics/" target="_blank">The Basics of Web Workers (HTML5 Rocks)</a>
+      </li>
+      <li>
+        <a href="https://developer.mozilla.org/en-US/docs/DOM/Using_web_workers" target="_blank">Using Web Workers (MDN)</a>
+      </li>
+      <li>
+        <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/workers.html" target="_blank">Web Worker Spec (WHATWG)</a>
+      </li>
+    </ul>
+
+	</div>
+</body>
+</html>

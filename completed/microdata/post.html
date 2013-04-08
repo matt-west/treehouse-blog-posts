@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Using Microdata to Markup Structured Data in Your Web Pages</title>
+  <meta name="generator" content="iA Writer for Mac 1.4 (1.4)" />
+  <meta name="description" content="" />
+  <meta name="keywords" content="" />
+
+  <style>
+    img {
+      max-width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div style="width: 680px; margin: 0 auto;">
+
+		<h1>Using Microdata to Markup Structured Data in Your Web Pages</h1>
+
+		<p>
+			<img src="microdata-feature.png" alt="">
+		</p>
+
+		<!-- POST CONTENT -->
+		<p>
+      The websites that we build are full of data about people, places, products and more. As designers we work very hard to present data to our users in a easily comprehensible and aesthetically pleasing way. However what we often don't do is consider how easily our non-human counterparts (i.e. the machines) can read and make sense of the data within our web pages. This is where using microdata can help us out.
+    </p>
+    <p>
+      Microdata aims to popularize a standardized way of marking up the structured data within our web pages so that it can be easily parsed by computer programs. This is acheived through the use of a few new HTML attributes and whole selection of <em>schemas</em>. These schemas describe all the properties that an item can have. The item here being defined as a <em>thing</em> such as a person, place, event or product.
+    </p>
+    <p>
+      In this blog post you are going to learn how to use the new microdata attributes as well as taking a look at some popular schemas from <a href="http://schema.org" title="Schema.org" target="_blank" rel="nofollow">Schema.org</a>.
+    </p>
+
+
+    <h2>Introducing Schema.org</h2>
+
+    <p>
+      It is all well and good spending time to markup the data within our web pages to make it more accessible to computer programs but if everyone is not using a standardized set of schemas for describing items we haven't solved the problem. This is where Schema.org comes in.
+    </p>
+    <p>
+      Schema.org is a collaborative project between Bing, Google, Yahoo! and Yandex that aims to outline a set of standardized schemas that can be used by web developers in order to overcome the problem outlined above. You don't necessarily have to use these schemas but I would <strong>strongly</strong> reccomend that you do so.
+    </p>
+
+    <hr>
+    <p>
+      <strong>Note:</strong> It is is possible to create your own schemas. This is out of the scope of this article, but if you are interested I would recommend reading <a href="http://html5doctor.com/microdata/#tools" target="_blank" rel="nofollow">this HTML5 doctor article</a>.
+    </p>
+    <hr>
+
+    <h2>Microdata Attributes</h2>
+
+    <p>
+      Before we get stuck into schemas you first need to learn about the attributes that are used to markup the data within your web pages.
+
+    <p>
+      <code>itemscope</code> - This attribute should be placed on an element that contains all of the data relating to an item. You do not need to specify a value for this attribute.
+    </p>
+    <pre>
+&lt;div <strong>itemscope</strong>&gt;...&lt;/div&gt;
+    </pre>
+    <p>
+      <code>itemtype</code> - The itemtype attribute is used to markup what an item <em>is</em>. The value of this attribute should contain a URL to a schema that defines all of the properties the item can have.
+    </p>
+    <pre>
+&lt;div itemscope <strong>itemtype="http://schema.org/Person"</strong>&gt;...&lt;/div&gt;
+    </pre>
+    <p>
+      <code>itemprop</code> - This attribute is used to markup a piece of data that belongs to an item. The value should contain the name of the property. The contents of the HTML element will then be used as the value for the property.
+    </p>
+    <pre>
+&lt;span <strong>itemprop="name"</strong>&gt;Matt West&lt;/span&gt;
+    </pre>
+    <p>
+      <code>itemid</code> - This attribute can be used to specify a unique ID for the item. This could be something like the ISBN for a book. A computr program could then use this ID to determine whether two microdata items that it encounters both refer to the same physical object.
+    </p>
+    <pre>
+&lt;div itemscope itemtype="http://schema.org/Book" <strong>itemid="urn:isbn:978-1-907828-03-4"</strong>&gt;
+  ...
+&lt;/div&gt;
+    </pre>
+    <p>
+      <code>itemref</code> - The itemref attribute allows you to add properties that are located outside of the element with itemscope defined on it. This achieved by adding a standard element id attribute to the element containing the property data and then specifying this id in the itemref attribute on your item. An example of this usage can be found below.
+    </p>
+    <pre>
+&lt;span <strong>id="my-name" itemprop="name"</strong>&gt;Matt West&lt;/span&gt;
+
+&lt;div itemscope itemtype="http://schema.org/Person" <strong>itemref="my-name"</strong>&gt;
+  ...
+&lt;/div&gt;
+    </pre>
+    <p>
+      Notice that the element outside of the itemscope still has an itemprop attribute.
+    </p>
+    <p>
+      Now that you understand the attributes involved in marking up your structured data lets take a look at some commonly used schemas.
+    </p>
+
+
+    <h2>LocalBusiness</h2>
+
+    <p>
+      The first schema that you are going to look at is for LocalBusiness items. This schema contains many properties, some which you will use more often than others. The most important properties that you will want to make sure that you cover are: name, description, address, telephone, email and url. You can find a full list of properties in this schema <a href="http://schema.org/LocalBusiness" rel="nofollow" target="_blank">here</a>.
+    </p>
+
+    <p>
+      Here is some markup that uses the LocalBusiness schema.
+    </p>
+    <pre>
+&lt;div itemscope itemtype="http://schema.org/LocalBusiness"&gt;
+  &lt;p itemprop="name"&gt;Developer City&lt;/p&gt;
+  &lt;div&gt;
+    &lt;img itemprop="logo" src="logo.png" alt="Developer City Logo"&gt;
+  &lt;/div&gt;
+  &lt;p itemprop="description"&gt;
+    Web Design and Development Services.
+  &lt;/p&gt;
+  &lt;div itemprop="address" itemscope itemtype="http://schema.org/PostalAddress"&gt;
+    &lt;span itemprop="streetAddress"&gt;Seatons Business Centre, High Street&lt;/span&gt;
+    &lt;span itemprop="addressLocality"&gt;Guilsborough&lt;/span&gt;
+    &lt;span itemprop="addressRegion"&gt;Northamptonshire&lt;/span&gt;
+    &lt;span itemprop="postalCode"&gt;NN6 8PU&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;p&gt;
+    Tel: &lt;span itemprop="telephone"&gt;01604 749014&lt;/span&gt;
+  &lt;/p&gt;
+  &lt;p&gt;
+    Email: &lt;a href="mailto:matt.west@developercity.co.uk" itemprop="email"&gt;matt.west@developercity.co.uk&lt;/a&gt;
+  &lt;/p&gt;
+  &lt;p&gt;
+    Web: &lt;a href="http://developercity.co.uk" itemprop="url"&gt;http://developercity.co.uk&lt;/a&gt;
+  &lt;/p&gt;
+&lt;/div&gt;
+    </pre>
+    <p>
+      Here is how this markup would be interpretted by a computer program. Notice how the address is parsed as a linked item as we have used the PostalAddress schema to markup the address data.
+    </p>
+    <pre>
+Item 
+  type: http://schema.org/localbusiness
+  property: 
+    name:         Developer City
+    logo:         http://www.example.com/logo.png
+    description:  Web Design and Development Services.
+    address:      Item 1
+    telephone:    01604 749014
+    email:        matt.west@developercity.co.uk
+    url:          http://developercity.co.uk
+
+Item 1
+  type: http://schema.org/postaladdress
+  property: 
+    streetaddress:    Seatons Business Centre, High Street
+    addresslocality:  Guilsborough
+    addressregion:    Northamptonshire
+    postalcode:       NN6 8PU
+    </pre>
+
+    <hr>
+    <p>
+      <strong>Note:</strong> Google has developed a handy tool for testing out your microdata markup: <a href="http://www.google.com/webmasters/tools/richsnippets" target="_blank" rel="nofollow">Google Rich Snippets Tool</a>.
+    </p>
+    <hr>
+
+    <h2>Person</h2>
+    <p>
+      Possible applications for the Person schema would include user profile pages and social networking sites. This schema also has an exhaustive list of potential properties, some of the most porminent being: name, description, image, url, additionalName (middle name), address, birthDate, deathDate, email, givenName (first name), familyName (last name), telephone and jobTitle.
+    </p>
+    <p>
+      Check out the full schema for <a href="http://schema.org/Person" rel="nofollow" target="_blank">more properties</a>.
+    </p>
+    <p>
+      The markup below shows how you could use the Person schema to markup data in your web pages.
+    </p>
+    <pre>
+&lt;div itemscope itemtype="http://schema.org/Person"&gt;
+  &lt;p&gt;
+    &lt;span itemprop="givenName"&gt;Matt&lt;/span&gt; &lt;span itemprop="familyName"&gt;West&lt;/span&gt;
+  &lt;/p&gt;
+  &lt;img itemprop="image" src="mattwest.png" alt="A picture of Matt West"&gt;
+  &lt;p&gt;
+    DOB: &lt;span itemprop="birthDate"&gt;04/06/1992&lt;/span&gt;
+  &lt;/p&gt;
+  &lt;p&gt;
+    Web: &lt;a href="http://matt-west.com" itemprop="url"&gt;http://matt-west.com&lt;/a&gt;
+  &lt;/p&gt;
+  &lt;p&gt;
+    Telephone: &lt;span itemprop="telephone"&gt;01604 749014&lt;/span&gt;
+  &lt;/p&gt;
+  &lt;div itemprop="address" itemscope itemtype="http://schema.org/PostalAddress"&gt;
+    &lt;span itemprop="streetAddress"&gt;Seatons Business Centre, High Street&lt;/span&gt;
+    &lt;span itemprop="addressLocality"&gt;Guilsborough&lt;/span&gt;
+    &lt;span itemprop="addressRegion"&gt;Northamptonshire&lt;/span&gt;
+    &lt;span itemprop="postalCode"&gt;NN6 8PU&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+    </pre>
+    <p>
+      Try using the <a href="http://www.google.com/webmasters/tools/richsnippets" target="_blank" rel="nofollow">Google Rich Snippets Tool</a> to see how this markup could be interpretted by a computer program.
+    </p>
+
+
+    <h2>Product</h2>
+
+    <p>
+      The final schema that you are going to look at is for marking up Product data. This can be really useful when building eCommerce websites.
+    </p>
+    <p>
+      The most commonly used properties in the Product schema are: name, description, image, url, model, color, brand and productID. You can find a full list <a href="http://schema.org/Product" rel="nofollow" target="_blank">here</a>.
+    </p>
+    <p>
+      An example product can be found below.
+    </p>
+
+    <pre>
+&lt;div itemscope itemtype=&quot;http://schema.org/Product&quot;&gt;
+  &lt;h1 itemprop=&quot;name&quot;&gt;Hovercar 5000&lt;/h1&gt;
+  &lt;img itemprop=&quot;image&quot; src=&quot;hovercar.png&quot; alt=&quot;Hovercar 5000&quot;&gt;
+  &lt;p itemprop=&quot;description&quot;&gt;
+    Arrive at your destination in style with the new environmentally friendly Hovercar 5000.
+  &lt;/p&gt;
+  &lt;p&gt;
+    Brand: &lt;span itemprop=&quot;brand&quot;&gt;ACME Hovercars&lt;/span&gt;
+  &lt;/p&gt;
+  &lt;p&gt;
+    Model: &lt;span itemprop=&quot;model&quot;&gt;5000B&lt;/span&gt;
+  &lt;/p&gt;
+  &lt;p&gt;
+    Color: &lt;span itemprop=&quot;color&quot;&gt;Silver&lt;/span&gt;
+  &lt;/p&gt;
+  &lt;p&gt;
+    Product ID: &lt;span itemprop=&quot;productID&quot;&gt;HV5000B&lt;/span&gt;
+  &lt;/p&gt;
+&lt;/div&gt;
+    </pre>
+
+    <hr>
+    <p>
+      <strong>Note:</strong> You can find a full list of schemas <a href="http://schema.org/docs/full.html" title="Microdata Schemas" target="_blank" rel="nofollow">here</a>.
+    </p>
+    <hr>
+
+    <h2>Final Thoughts on Microdata</h2>
+    <p>
+      Using microdata correctly will help to make the data in your web pages more accessible to computer programs (like those used by search engines to analyze web pages).
+    </p>
+    <p>
+      Whilst I think that microdata does have an important place in a web developers toolkit, it is worth noting that using microdata can add a considerable amount of markup to your web pages. Take a look at all those extra <code>&lt;span&gt;</code> elements that were needed to help markup data in the examples above. All this extra markup can have an impact on the readibility of your code, making it harder to understand for people that might be working with you on a project. I'd recommend that you only use microdata to markup the most important data on the page.
+    </p>
+    <p>
+      Are you using microdata in your projects? Let us know in the comments.
+    </p>
+
+    <h2>Useful Links</h2>
+    <ul>
+      <li>
+        <a href="http://schema.org/docs/full.html" title="Microdata Schemas" target="_blank" rel="nofollow">Schema.org</a>
+      </li>
+      <li>
+        <a href="http://www.google.com/webmasters/tools/richsnippets" target="_blank" rel="nofollow">Google Rich Snippets Tool</a>
+      </li>
+    </ul>
+
+	</div>
+</body>
+</html>
