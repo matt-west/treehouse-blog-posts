@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>HTML Templates Demo</title>
+
+	<style>
+		body, html {
+			font-family: Helvetica, Arial, sans-serif;
+			padding: 1em;
+		}
+
+		#comments {
+			list-style: none;
+			padding: 0;
+			margin: 0;
+		}
+
+		.comment {
+    	padding: 1em 0;
+    	border-top: 1px solid #EEE;
+    }
+
+    .comment-author {
+      font-size: 0.8em;
+      color: #999;
+    }
+
+    .comment-body {
+    	color: #555;
+    	padding: 0.5em 0;
+    }
+
+    .comment-actions { font-size: 0.8em; }
+	</style>
+</head>
+<body>
+	<ul id="comments"></ul>
+
+	<template id="comment-template">
+	  <li class="comment">
+	    <div class="comment-author"></div>
+	    <div class="comment-body"></div>
+	    <div class="comment-actions">
+	      <a href="#reply" class="reply">Reply</a>
+	    </div>
+	  </li>
+	</template>
+
+
+	<script>
+		if ('content' in document.createElement('template')) {
+	    // An array of comments.
+			var comments = [
+			  {'author': 'Joe', 'body': 'I love this product.'},
+			  {'author': 'Mary', 'body': 'Great idea. I have got to get me one of these!'},
+			  {'author': 'Eric', 'body': 'These things are fantastic. I bought three.'}
+			];
+
+			// Get a reference to the comments list in the main DOM.
+			var commentsList = document.getElementById('comments');
+
+			// Loop through each of the comments and add them to the comments list.
+			for (var i = 0; i < comments.length; i++) {
+				var comment = comments[i];
+			  var tmpl = document.getElementById('comment-template').content.cloneNode(true);
+			  tmpl.querySelector('.comment-author').innerText = comment['author'];
+			  tmpl.querySelector('.comment-body').innerText = comment['body'];
+			  commentsList.appendChild(tmpl);
+			}
+
+		} else {
+		  // You need to use something else :(
+		  console.log('HTML Templates are not supported.');
+		}
+	</script>
+</body>
+</html>

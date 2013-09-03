@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8" />
+	<title>github-pages</title>
+	<meta name="generator" content="iA Writer for Mac 1.4 (1.4)" />
+	<meta name="description" content="" />
+	<meta name="keywords" content="" />
+</head>
+<body>
+<h1>Hosting Your Website Using GitHub Pages</h1>
+
+<p>So you want to launch a simple website but don't want to have to go through the dull process of having to setup another hosting package. There is an easier solution. If you're just launching a few simple pages you can use GitHub to host your static websites for free.
+</p>
+<p>In this blog post you are going to learn how to host your website for free using GitHub pages.
+</p>
+<p>Lets get started.
+</p>
+<hr/><p><strong>Note</strong>: This post assumes that you have a <a href="https://github.com" title="https://github.com">GitHub</a> account and some basic knowledge of the version control system <a href="http://git-scm.com/" title="http://git-scm.com/">Git</a>.
+</p><hr/>
+<h2>Create Your GitHub Repository</h2>
+
+<p>The files that make up your website will need to be stored within a GitHub repository. If you're creating a website to promote one of your existing GitHub projects you can add the website files to a new branch, otherwise you can just setup a new repo for your site.
+</p>
+<hr/><p>Note: If you are not adding your website files to an existing repo make sure that you <a href="https://help.github.com/articles/create-a-repo" title="https://help.github.com/articles/create-a-repo">setup a new repo</a> before continuing.
+</p><hr/>
+<p>Now open up terminal (command prompt on Windows) and make sure that you have a copy of your GitHub repo on your computer. Once you got your local copy, move into the project folder using the <code>cd</code> command.
+</p>
+<p><pre>
+// Retrieve a copy of your GitHub repo.  
+git clone https://github.com/<strong>user</strong>/<strong>repository</strong>.git
+// Move into that directory.
+cd repository  
+</pre>
+</p>
+<hr/><p><strong>Note</strong>: Make sure that you change the clone URL to the URL of your GitHub repo. This can be found on the main project page.
+</p><hr/>
+<h2>Create an Orphan Branch</h2>
+
+<p>Now you need to create a new <a href="http://www.git-tower.com/files/applicationHelp/pgs/Refs_Branches_DetachedOrphaned.html" title="http://www.git-tower.com/files/applicationHelp/pgs/Refs_Branches_DetachedOrphaned.html">orphan branch</a> within your repo that will hold all of your website files.
+</p>
+<p>This new branch should be called <code>gh-pages</code>.
+</p>
+<p><pre>
+git checkout --orphan gh-pages
+</pre>
+</p>
+<p>If you already had files in the master branch of your GitHub repo you now need to delete these from the new <code>gh-pages</code> branch. To do this you can use the following command:
+</p>
+<p><pre>
+git rm -rf .
+</pre>
+</p>
+<h2>Add Your Website Files</h2>
+
+<p>Now that your repo has been properly setup it's time to add all of the HTML, CSS and JavaScript files that make up your website. Once you have added these to your repo you need to commit the changes. To do this you can use the following command.
+</p>
+<p><pre>
+git commit -a -m "Adding pages"
+</pre>
+</p>
+<hr/><p><strong>Note</strong>: The <code>-a</code> flag is shorthand for <code>git add .</code>
+</p><hr/>
+<h2>Push Your Changes to GitHub</h2>
+
+<p>Okay so you've got all your files where they need to be. The only thing left to do now is to push the new <code>gh-pages</code> branch up to GitHub. You do this using the <code>git push</code> command.
+</p>
+<p><pre>
+git push origin gh-pages
+</pre>
+</p>
+<p>That's it! Your website should now be available at http://<strong>username</strong>.github.io/<strong>repository</strong>/.
+</p>
+<h2>Using a Custom Domain</h2>
+
+<p>The last thing I want to cover in this post is how you can use your own domain name with your new GitHub-hosted website.
+</p>
+<p>First you will need to create a new file in your GitHub repo called <code>CNAME</code> that contains the domain name (or subdomain) that you wish to use. This file should be placed in the <code>gh-pages</code> branch if you are using <em>project-pages</em> (as we have been in this post). If you are using <em>user-pages</em> the file should be placed in the <code>master</code> branch.
+</p>
+<p>Your <code>CNAME</code> file might look like the following:
+</p>
+<p><pre>
+teamtreehouse.com
+</pre>
+</p>
+<p>Next you will need to update the DNS records for your domain name. This is usually done through a control panel provided by your domain registrar.
+</p>
+<p>If you want to use a root domain (such as <code>teamtreehouse.com</code>) for your website you will need to setup a new <strong>A record</strong> that points to the IP address <code>204.232.175.78</code>.
+</p>
+<p>If you are using a subdomain (such as <code>blog.teamtreehouse.com</code>) it's best to create a new <strong>CNAME record</strong> that points to your GitHub user subdomain (<code>**username**.github.io</code>). This is so that the DNS will be automatically adjusted if the servers IP address changes on GitHub.
+</p>
+<hr/><p><strong>Note</strong>: For information about the difference between CNAME and A records check out <a href="http://www.youtube.com/watch?v=WqhgGpv4cKY" title="http://www.youtube.com/watch?v=WqhgGpv4cKY">this video</a>.
+</p><hr/>
+<p>It may take a little while for your DNS changes to take effect. This is usually no more than a few hours. Once the changes have gone through, you should be able to access your new website from your custom domain name.
+</p>
+<h2>Final Thoughts</h2>
+
+<p>In this post I've showed you how to host pages that you've created yourself but it's worth noting that GitHub also has a tool for <a href="http://pages.github.com/" title="http://pages.github.com/">automatically generating pages</a> for your projects. You can launch this tool from the project settings page.
+</p>
+<p>GitHub pages does limit you to using static assets (HTML, CSS and JS) for your websites, but you could use something like <a href="http://jekyllrb.com/" title="http://jekyllrb.com/">Jekyll</a> to make it easier to generate these files.
+</p>
+<p>It's not going to meet everyone's needs but if you just want to launch a simple website, GitHub pages is a free and easy way to get up and running.
+</p>
+</body>
+</html>
