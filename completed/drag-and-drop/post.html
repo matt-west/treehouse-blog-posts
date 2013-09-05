@@ -1,0 +1,332 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><style>html { font-size: 100%; overflow-y: scroll; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
+
+body{
+  color:#444;
+  font-family:Georgia, Palatino, 'Palatino Linotype', Times, 'Times New Roman',
+              "Hiragino Sans GB", "STXihei", "微软雅黑", serif;
+  font-size:12px;
+  line-height:1.5em;
+  background:#fefefe;
+  width: 45em;
+  margin: 10px auto;
+  padding: 1em;
+  outline: 1300px solid #FAFAFA;
+}
+
+a{ color: #0645ad; text-decoration:none;}
+a:visited{ color: #0b0080; }
+a:hover{ color: #06e; }
+a:active{ color:#faa700; }
+a:focus{ outline: thin dotted; }
+a:hover, a:active{ outline: 0; }
+
+span.backtick {
+  border:1px solid #EAEAEA;
+  border-radius:3px;
+  background:#F8F8F8;
+  padding:0 3px 0 3px;
+}
+
+::-moz-selection{background:rgba(255,255,0,0.3);color:#000}
+::selection{background:rgba(255,255,0,0.3);color:#000}
+
+a::-moz-selection{background:rgba(255,255,0,0.3);color:#0645ad}
+a::selection{background:rgba(255,255,0,0.3);color:#0645ad}
+
+p{
+margin:1em 0;
+}
+
+img{
+max-width:100%;
+}
+
+h1,h2,h3,h4,h5,h6{
+font-weight:normal;
+color:#111;
+line-height:1em;
+}
+h4,h5,h6{ font-weight: bold; }
+h1{ font-size:2.5em; }
+h2{ font-size:2em; border-bottom:1px solid silver; padding-bottom: 5px; }
+h3{ font-size:1.5em; }
+h4{ font-size:1.2em; }
+h5{ font-size:1em; }
+h6{ font-size:0.9em; }
+
+blockquote{
+color:#666666;
+margin:0;
+padding-left: 3em;
+border-left: 0.5em #EEE solid;
+}
+hr { display: block; height: 2px; border: 0; border-top: 1px solid #aaa;border-bottom: 1px solid #eee; margin: 1em 0; padding: 0; }
+
+
+pre , code, kbd, samp { 
+  color: #000; 
+  font-family: monospace; 
+  font-size: 0.88em; 
+  border-radius:3px;
+  background-color: #F8F8F8;
+  border: 1px solid #CCC; 
+}
+pre { white-space: pre; white-space: pre-wrap; word-wrap: break-word; padding: 5px 12px;}
+pre code { border: 0px !important; padding: 0;}
+code { padding: 0 3px 0 3px; }
+
+b, strong { font-weight: bold; }
+
+dfn { font-style: italic; }
+
+ins { background: #ff9; color: #000; text-decoration: none; }
+
+mark { background: #ff0; color: #000; font-style: italic; font-weight: bold; }
+
+sub, sup { font-size: 75%; line-height: 0; position: relative; vertical-align: baseline; }
+sup { top: -0.5em; }
+sub { bottom: -0.25em; }
+
+ul, ol { margin: 1em 0; padding: 0 0 0 2em; }
+li p:last-child { margin:0 }
+dd { margin: 0 0 0 2em; }
+
+img { border: 0; -ms-interpolation-mode: bicubic; vertical-align: middle; }
+
+table { border-collapse: collapse; border-spacing: 0; }
+td { vertical-align: top; }
+
+@media only screen and (min-width: 480px) {
+body{font-size:14px;}
+}
+
+@media only screen and (min-width: 768px) {
+body{font-size:16px;}
+}
+
+@media print {
+  * { background: transparent !important; color: black !important; filter:none !important; -ms-filter: none !important; }
+  body{font-size:12pt; max-width:100%; outline:none;}
+  a, a:visited { text-decoration: underline; }
+  hr { height: 1px; border:0; border-bottom:1px solid black; }
+  a[href]:after { content: " (" attr(href) ")"; }
+  abbr[title]:after { content: " (" attr(title) ")"; }
+  .ir a:after, a[href^="javascript:"]:after, a[href^="#"]:after { content: ""; }
+  pre, blockquote { border: 1px solid #999; padding-right: 1em; page-break-inside: avoid; }
+  tr, img { page-break-inside: avoid; }
+  img { max-width: 100% !important; }
+  @page :left { margin: 15mm 20mm 15mm 10mm; }
+  @page :right { margin: 15mm 10mm 15mm 20mm; }
+  p, h2, h3 { orphans: 3; widows: 3; }
+  h2, h3 { page-break-after: avoid; }
+}
+</style><title>post</title></head><body><h1 id="implementing-native-drag-and-drop">Implementing Native Drag and Drop</h1>
+<p>Drag and Drop is one of those interactions that can really help to make an interface simple to use. There are plenty of JavaScript libraries that can be used to create drag and drop interfaces but what many people don't know is that all of the major browsers actually have native support for drag and drop.</p>
+<p>In this blog post you are going to learn how to make use of the native Drag and Drop API in order to create your own Drag and Drop interfaces.</p>
+<h2 id="making-elements-draggable">Making Elements Draggable</h2>
+<p>To get use started we are first going to take a look at how to make HTML element draggable. This is done using the <code>draggable</code> attribute.</p>
+<p>Setting the value of the <code>draggable</code> attribute to <code>true</code> informs the browser that this element can be dragged.</p>
+<pre>
+&lt;div draggable=&quot;true&quot;&gt;Draggable Div&lt;/div&gt;
+</pre>
+
+<hr />
+<p>Note:</p>
+<hr />
+<h2 id="listening-for-drag-events">Listening for Drag Events</h2>
+<p>There are a number of events that are fired during a drag interaction. Some of these events are fired on the element that is being dragged and others are fired on elements on the page that serve as drop targets.</p>
+<ul>
+<li><code>dragstart</code> - This event is fired on an element when it starts to be dragged by the user. It is not fired when dragging a file into the browser from the file system.</li>
+<li><code>drag</code> - This event is continuously fired on element being dragged during the interaction.</li>
+<li><code>dragenter</code> - This event is fired when the dragged element enters a target element. The event listener should be setup on the target.</li>
+<li><code>dragleave</code> - This event is fired when the dragged element leaves the target element.</li>
+<li><code>dragover</code> - This event is continuously fired whilst the dragged element is in the target area.</li>
+<li><code>drop</code> - This event is fired when the element or file is dropped.</li>
+<li><code>dragend</code> - This event is fired once the drag interaction has finished. It applies to the element that was dragged.</li>
+</ul>
+<hr />
+<p><strong>Note</strong>: Mouse events (such as <code>mousemove</code>) are not fired during a drag and drop interaction.</p>
+<hr />
+<p>You can use a simple event listener to execute some code when one of these events is fired. For example the following would print out the text 'Drag Interaction Started!' to the console when the user initiated a drag interaction.</p>
+<pre>
+draggableElement.addEventListener('dragstart', function(e) {
+  console.log('Drag Interaction Started!');
+});
+</pre>
+
+<h2 id="the-datatransfer-object">The DataTransfer Object</h2>
+<ul>
+<li><code>effectAllowed</code></li>
+<li><code>dropEffect</code></li>
+<li><code>setData(format, data)</code></li>
+<li><code>getData(format)</code></li>
+<li><code>setDragImage(imgElement, x, y)</code></li>
+<li><code>files</code></li>
+</ul>
+<h2 id="drag-and-drop-with-page-elements">Drag and Drop with Page Elements</h2>
+<pre>
+&lt;ul id=&quot;drag-elements&quot;&gt;
+  &lt;li draggable=&quot;true&quot;&gt;Element One&lt;/li&gt;
+  &lt;li draggable=&quot;true&quot;&gt;Element Two&lt;/li&gt;
+  &lt;li draggable=&quot;true&quot;&gt;Element Three&lt;/li&gt;
+  &lt;li draggable=&quot;true&quot;&gt;Element Four&lt;/li&gt;
+  &lt;li draggable=&quot;true&quot;&gt;Element Five&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div id=&quot;drop-target-one&quot;&gt;
+  Drop Here!
+&lt;/div&gt;
+</pre>
+
+<pre>
+var dropZoneOne = document.querySelector('#drop-target-one');
+var dragElements = document.querySelectorAll('#drag-elements li');
+var elementDragged = null;
+</pre>
+
+<pre>
+for (var i = 0; i < dragElements.length; i++) {
+
+  // Event Listener for when the drag interaction starts.
+  dragElements[i].addEventListener('dragstart', function(e) {
+    e.dataTransfer.effectAllowed = 'copy';
+    e.dataTransfer.setData('text', this.innerHTML);
+    elementDragged = this;
+  });
+
+  // Event Listener for when the drag interaction finishes.
+  dragElements[i].addEventListener('dragend', function(e) {
+    elementDragged = null;
+  });
+
+};
+</pre>
+
+<pre>
+// Event Listener for when the dragged element is over the drop zone.
+dropZoneOne.addEventListener('dragover', function(e) {
+  if (e.preventDefault) {
+    e.preventDefault();
+  }
+
+  e.dataTransfer.dropEffect = 'copy';
+
+  return false;
+});
+</pre>
+
+<pre>
+// Event Listener for when the dragged element enters the drop zone.
+dropZoneOne.addEventListener('dragenter', function(e) {
+  this.className = "over";
+});
+</pre>
+
+<pre>
+// Event Listener for when the dragged element leaves the drop zone.
+dropZoneOne.addEventListener('dragleave', function(e) {
+  this.className = "";
+});
+</pre>
+
+<pre>
+// Event Listener for when the dragged element dropped in the drop zone.
+dropZoneOne.addEventListener('drop', function(e) {
+  this.className = "";
+  this.innerHTML = "Dropped " + e.dataTransfer.getData('text');
+
+  // Remove the element from the list.
+  document.querySelector('#drag-elements').removeChild(elementDragged);
+  elementDragged = null;
+
+  return false;
+});
+</pre>
+
+<h2 id="drag-and-drop-with-files">Drag and Drop with Files</h2>
+<pre>
+&lt;div id=&quot;dd-files&quot;&gt;Drop a .txt file here&lt;/div&gt;
+&lt;pre id=&quot;file-content&quot;&gt;&lt;/pre&gt;
+</pre>
+
+<pre>
+var dropZoneTwo = document.querySelector('#dd-files');
+var fileContentPane = document.querySelector('#file-content');
+</pre>
+
+<pre>
+// Event Listener for when the dragged file is over the drop zone.
+dropZoneTwo.addEventListener('dragover', function(e) {
+  if (e.preventDefault) e.preventDefault(); 
+  if (e.stopPropagation) e.stopPropagation();
+
+  e.dataTransfer.dropEffect = 'copy';
+});
+</pre>
+
+<pre>
+// Event Listener for when the dragged file enters the drop zone.
+dropZoneTwo.addEventListener('dragenter', function(e) {
+  this.className = "over";
+});
+</pre>
+
+<pre>
+// Event Listener for when the dragged file leaves the drop zone.
+dropZoneTwo.addEventListener('dragleave', function(e) {
+  this.className = "";
+});
+</pre>
+
+<pre>
+// Event Listener for when the dragged file dropped in the drop zone.
+dropZoneTwo.addEventListener('drop', function(e) {
+  if (e.preventDefault) e.preventDefault(); 
+  if (e.stopPropagation) e.stopPropagation();
+
+  this.className = "";
+
+  var fileList = e.dataTransfer.files;
+
+  if (fileList.length > 0) {
+    readTextFile(fileList[0]);
+  }
+
+  console.log(e.dataTransfer.files);
+});
+</pre>
+
+<pre>
+// Read the contents of a file.
+function readTextFile(file) {
+  var reader = new FileReader();
+
+  reader.onloadend = function(e) {
+    if (e.target.readyState == FileReader.DONE) {
+      var content = e.target.result;
+      fileContentPane.innerHTML = "File: " + file.name + "\n\n" + content;
+    }
+  }
+
+  var blob = file.slice(0, file.size);
+  reader.readAsBinaryString(blob);
+}
+</pre>
+
+<h2 id="browser-compatibility">Browser Compatibility</h2>
+<p>Browser support for native drag and drop is actually pretty good. All the major desktop browsers support the API. Support amongst mobile browsers is poor though, with no mobile browsers currently supporting drag and drop.</p>
+<ul>
+<li>IE 10+ - Partially supported in versions 5.5 and up (no files)</li>
+<li>Firefox 3.5+</li>
+<li>Chrome 4.0+</li>
+<li>Safari 3.1+</li>
+<li>Opera 12+</li>
+</ul>
+<p>You can find a comprehensive list of supported browsers at <a href="http://caniuse.com/#feat=dragndrop">caniuse.com</a>.</p>
+<h2 id="final-thoughts">Final Thoughts</h2>
+<h2 id="useful-links">Useful Links</h2>
+<ul>
+<li><a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/dnd.html">Drag and Drop Specification (WHATWG)</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/DragDrop/Drag_and_Drop">Drag and Drop Documentation (MDN)</a></li>
+<li><a href="http://caniuse.com/#feat=dragndrop">Can I use... Drag and Drop</a></li>
+</ul></body></html>
