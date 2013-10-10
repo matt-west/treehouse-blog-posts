@@ -1,0 +1,1419 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><style>body
+{
+  font-size:15px;
+  line-height:1.7;
+  overflow-x:hidden;
+  
+    background-color: white;
+    border-radius: 3px;
+    border: 3px solid #EEE;
+    box-shadow: inset 0 0 0 1px #CECECE;
+    font-family: Helvetica, arial, freesans, clean, sans-serif;
+    width: 912px;
+    padding: 30px;
+    margin: 2em auto;
+    
+    color:#333333;
+}
+
+
+.body-classic{
+  color:#444;
+  font-family:Georgia, Palatino, 'Palatino Linotype', Times, 'Times New Roman', "Hiragino Sans GB", "STXihei", "微软雅黑", serif;
+  font-size:16px;
+  line-height:1.5em;
+  background:#fefefe;
+  width: 45em;
+  margin: 10px auto;
+  padding: 1em;
+  outline: 1300px solid #FAFAFA;
+}
+
+body>:first-child
+{
+  margin-top:0!important;
+}
+
+body>:last-child
+{
+  margin-bottom:0!important;
+}
+
+blockquote,dl,ol,p,pre,table,ul {
+  border: 0;
+  margin: 15px 0;
+  padding: 0;
+}
+
+body a.absent
+{
+  color:#c00;
+}
+
+body a.anchor
+{
+  display:block;
+  padding-left:30px;
+  margin-left:-30px;
+  cursor:pointer;
+  position:absolute;
+  top:0;
+  left:0;
+  bottom:0
+}
+
+/*h4,h5,h6{ font-weight: bold; }*/
+
+.octicon{
+  font:normal normal 16px sans-serif;
+  width: 1em;
+  height: 1em;
+  line-height:1;
+  display:inline-block;
+  text-decoration:none;
+  -webkit-font-smoothing:antialiased
+}
+
+.octicon-link {
+  background: url("data:image/svg+xml;utf8,<?xml version='1.0' standalone='no'?> <!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.1//EN' 'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'> <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1024 832'> <metadata>Copyright (C) 2013 by GitHub</metadata> <!-- scale(0.01565557729941) --> <path transform='' d='M768 64h-192s-254 0-256 256c0 22 3 43 8 64h137c-11-19-18-41-18-64 0-128 128-128 128-128h192s128 0 128 128-128 128-128 128 0 64-64 128h64s256 0 256-256-256-256-256-256z m-72 192h-137c11 19 18 41 18 64 0 128-128 128-128 128h-192s-128 0-128-128 128-128 128-128-4-65 66-128h-66s-256 0-256 256 256 256 256 256h192s256 0 256-256c0-22-4-44-8-64z'/> </svg>"); 
+  background-size: contain; 
+  background-repeat: no-repeat;
+  background-position: bottom;
+}
+
+.octicon-link:before{
+  content:'\a0';
+}
+
+body h1,body h2,body h3,body h4,body h5,body h6{
+  margin:1em 0 15px;
+  padding:0;
+  font-weight:bold;
+  line-height:1.7;
+  cursor:text;
+  position:relative
+}
+
+body h1 .octicon-link,body h2 .octicon-link,body h3 .octicon-link,body h4 .octicon-link,body h5 .octicon-link,body h6 .octicon-link{
+  display:none;
+  color:#000
+}
+
+body h1:hover a.anchor,body h2:hover a.anchor,body h3:hover a.anchor,body h4:hover a.anchor,body h5:hover a.anchor,body h6:hover a.anchor{
+  text-decoration:none;
+  line-height:1;
+  padding-left:0;
+  margin-left:-22px;
+  top:15%
+}
+
+body h1:hover a.anchor .octicon-link,body h2:hover a.anchor .octicon-link,body h3:hover a.anchor .octicon-link,body h4:hover a.anchor .octicon-link,body h5:hover a.anchor .octicon-link,body h6:hover a.anchor .octicon-link{
+  display:inline-block
+}
+
+body h1 tt,body h1 code,body h2 tt,body h2 code,body h3 tt,body h3 code,body h4 tt,body h4 code,body h5 tt,body h5 code,body h6 tt,body h6 code{
+  font-size:inherit
+}
+
+body h1{
+  font-size:2.5em;
+  border-bottom:1px solid #ddd
+}
+
+body h2{
+  font-size:2em;
+  border-bottom:1px solid #eee
+}
+
+body h3{
+  font-size:1.5em
+}
+
+body h4{
+  font-size:1.2em
+}
+
+body h5{
+  font-size:1em
+}
+
+body h6{
+  color:#777;
+  font-size:1em
+}
+
+body p,body blockquote,body ul,body ol,body dl,body table,body pre{
+  margin:15px 0
+}
+
+body h1 tt,body h1 code,body h2 tt,body h2 code,body h3 tt,body h3 code,body h4 tt,body h4 code,body h5 tt,body h5 code,body h6 tt,body h6 code
+{
+  font-size:inherit;
+}
+
+
+body hr
+{
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAECAYAAACtBE5DAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OENDRjNBN0E2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OENDRjNBN0I2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo4Q0NGM0E3ODY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo4Q0NGM0E3OTY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PqqezsUAAAAfSURBVHjaYmRABcYwBiM2QSA4y4hNEKYDQxAEAAIMAHNGAzhkPOlYAAAAAElFTkSuQmCC);
+  background-repeat: repeat-x;
+  /*background:transparent url(http://overblown.net/files/markdown/dirty-shade.png) repeat-x 0 0;*/
+  background-color: transparent;
+  background-position: 0;
+  border:0 none;
+  color:#ccc;
+  height:4px;
+  margin:15px 0;
+  padding:0;
+}
+
+body li p.first
+{
+  display:inline-block;
+}
+
+body ul,body ol
+{
+  padding-left:30px;
+}
+
+body ul.no-list,body ol.no-list
+{
+  list-style-type:none;
+  padding:0;
+}
+
+body ul ul,body ul ol,body ol ol,body ol ul
+{
+  margin-bottom:0;
+  margin-top:0;
+}
+
+body dl
+{
+  padding:0;
+}
+
+body dl dt
+{
+  font-size:14px;
+  font-style:italic;
+  font-weight:700;
+  margin-top:15px;
+  padding:0;
+}
+
+body dl dd
+{
+  margin-bottom:15px;
+  padding:0 15px;
+}
+
+body blockquote
+{
+  border-left:4px solid #DDD;
+  color:#777;
+  padding:0 15px;
+}
+
+body blockquote>:first-child
+{
+  margin-top:0;
+}
+
+body blockquote>:last-child
+{
+  margin-bottom:0;
+}
+
+body table
+{
+  display:block;
+  overflow:auto;
+  width:100%;
+}
+
+body table th
+{
+  font-weight:700;
+}
+
+body table th,body table td
+{
+  border:1px solid #ddd;
+  padding:6px 13px;
+}
+
+body table tr
+{
+  background-color:#fff;
+  border-top:1px solid #ccc;
+}
+
+body table tr:nth-child(2n)
+{
+  background-color:#f8f8f8;
+}
+
+body img
+{
+  -moz-box-sizing:border-box;
+  box-sizing:border-box;
+  max-width:100%;
+}
+
+body span.frame
+{
+  display:block;
+  overflow:hidden;
+}
+
+body span.frame>span
+{
+  border:1px solid #ddd;
+  display:block;
+  float:left;
+  margin:13px 0 0;
+  overflow:hidden;
+  padding:7px;
+  width:auto;
+}
+
+body span.frame span img
+{
+  display:block;
+  float:left;
+}
+
+body span.frame span span
+{
+  clear:both;
+  color:#333;
+  display:block;
+  padding:5px 0 0;
+}
+
+body span.align-center
+{
+  clear:both;
+  display:block;
+  overflow:hidden;
+}
+
+body span.align-center>span
+{
+  display:block;
+  margin:13px auto 0;
+  overflow:hidden;
+  text-align:center;
+}
+
+body span.align-center span img
+{
+  margin:0 auto;
+  text-align:center;
+}
+
+body span.align-right
+{
+  clear:both;
+  display:block;
+  overflow:hidden;
+}
+
+body span.align-right>span
+{
+  display:block;
+  margin:13px 0 0;
+  overflow:hidden;
+  text-align:right;
+}
+
+body span.align-right span img
+{
+  margin:0;
+  text-align:right;
+}
+
+body span.float-left
+{
+  display:block;
+  float:left;
+  margin-right:13px;
+  overflow:hidden;
+}
+
+body span.float-left span
+{
+  margin:13px 0 0;
+}
+
+body span.float-right
+{
+  display:block;
+  float:right;
+  margin-left:13px;
+  overflow:hidden;
+}
+
+body span.float-right>span
+{
+  display:block;
+  margin:13px auto 0;
+  overflow:hidden;
+  text-align:right;
+}
+
+body code,body tt
+{
+  background-color:#f8f8f8;
+  border:1px solid #ddd;
+  border-radius:3px;
+  margin:0 2px;
+  padding:0 5px;
+}
+
+body code
+{
+  white-space:nowrap;
+}
+
+
+code,pre{
+  font-family:Consolas, "Liberation Mono", Courier, monospace;
+  font-size:12px
+}
+
+body pre>code
+{
+  background:transparent;
+  border:none;
+  margin:0;
+  padding:0;
+  white-space:pre;
+}
+
+body .highlight pre,body pre
+{
+  background-color:#f8f8f8;
+  border:1px solid #ddd;
+  font-size:13px;
+  line-height:19px;
+  overflow:auto;
+  padding:6px 10px;
+  border-radius:3px
+}
+
+body pre code,body pre tt
+{
+  background-color:transparent;
+  border:none;
+  margin:0;
+  padding:0;
+}
+
+body .task-list{
+  list-style-type:none;
+  padding-left:10px
+}
+
+.task-list-item{
+  padding-left:20px
+}
+
+.task-list-item label{
+  font-weight:normal
+}
+
+.task-list-item.enabled label{
+  cursor:pointer
+}
+
+.task-list-item+.task-list-item{
+  margin-top:5px
+}
+
+.task-list-item-checkbox{
+  float:left;
+  margin-left:-20px;
+  margin-top:7px
+}
+
+
+.highlight{
+  background:#ffffff
+}
+
+.highlight .c{
+  color:#999988;
+  font-style:italic
+}
+
+.highlight .err{
+  color:#a61717;
+  background-color:#e3d2d2
+}
+
+.highlight .k{
+  font-weight:bold
+}
+
+.highlight .o{
+  font-weight:bold
+}
+
+.highlight .cm{
+  color:#999988;
+  font-style:italic
+}
+
+.highlight .cp{
+  color:#999999;
+  font-weight:bold
+}
+
+.highlight .c1{
+  color:#999988;
+  font-style:italic
+}
+
+.highlight .cs{
+  color:#999999;
+  font-weight:bold;
+  font-style:italic
+}
+
+.highlight .gd{
+  color:#000000;
+  background-color:#ffdddd
+}
+
+.highlight .gd .x{
+  color:#000000;
+  background-color:#ffaaaa
+}
+
+.highlight .ge{
+  font-style:italic
+}
+
+.highlight .gr{
+  color:#aa0000
+}
+
+.highlight .gh{
+  color:#999999
+}
+
+.highlight .gi{
+  color:#000000;
+  background-color:#ddffdd
+}
+
+.highlight .gi .x{
+  color:#000000;
+  background-color:#aaffaa
+}
+
+.highlight .go{
+  color:#888888
+}
+
+.highlight .gp{
+  color:#555555
+}
+
+.highlight .gs{
+  font-weight:bold
+}
+
+.highlight .gu{
+  color:#800080;
+  font-weight:bold
+}
+
+.highlight .gt{
+  color:#aa0000
+}
+
+.highlight .kc{
+  font-weight:bold
+}
+
+.highlight .kd{
+  font-weight:bold
+}
+
+.highlight .kn{
+  font-weight:bold
+}
+
+.highlight .kp{
+  font-weight:bold
+}
+
+.highlight .kr{
+  font-weight:bold
+}
+
+.highlight .kt{
+  color:#445588;
+  font-weight:bold
+}
+
+.highlight .m{
+  color:#009999
+}
+
+.highlight .s{
+  color:#d14
+}
+
+.highlight .n{
+  color:#333333
+}
+
+.highlight .na{
+  color:#008080
+}
+
+.highlight .nb{
+  color:#0086B3
+}
+
+.highlight .nc{
+  color:#445588;
+  font-weight:bold
+}
+
+.highlight .no{
+  color:#008080
+}
+
+.highlight .ni{
+  color:#800080
+}
+
+.highlight .ne{
+  color:#990000;
+  font-weight:bold
+}
+
+.highlight .nf{
+  color:#990000;
+  font-weight:bold
+}
+
+.highlight .nn{
+  color:#555555
+}
+
+.highlight .nt{
+  color:#000080
+}
+
+.highlight .nv{
+  color:#008080
+}
+
+.highlight .ow{
+  font-weight:bold
+}
+
+.highlight .w{
+  color:#bbbbbb
+}
+
+.highlight .mf{
+  color:#009999
+}
+
+.highlight .mh{
+  color:#009999
+}
+
+.highlight .mi{
+  color:#009999
+}
+
+.highlight .mo{
+  color:#009999
+}
+
+.highlight .sb{
+  color:#d14
+}
+
+.highlight .sc{
+  color:#d14
+}
+
+.highlight .sd{
+  color:#d14
+}
+
+.highlight .s2{
+  color:#d14
+}
+
+.highlight .se{
+  color:#d14
+}
+
+.highlight .sh{
+  color:#d14
+}
+
+.highlight .si{
+  color:#d14
+}
+
+.highlight .sx{
+  color:#d14
+}
+
+.highlight .sr{
+  color:#009926
+}
+
+.highlight .s1{
+  color:#d14
+}
+
+.highlight .ss{
+  color:#990073
+}
+
+.highlight .bp{
+  color:#999999
+}
+
+.highlight .vc{
+  color:#008080
+}
+
+.highlight .vg{
+  color:#008080
+}
+
+.highlight .vi{
+  color:#008080
+}
+
+.highlight .il{
+  color:#009999
+}
+
+.highlight .gc{
+  color:#999;
+  background-color:#EAF2F5
+}
+
+.type-csharp .highlight .k{
+  color:#0000FF
+}
+
+.type-csharp .highlight .kt{
+  color:#0000FF
+}
+
+.type-csharp .highlight .nf{
+  color:#000000;
+  font-weight:normal
+}
+
+.type-csharp .highlight .nc{
+  color:#2B91AF
+}
+
+.type-csharp .highlight .nn{
+  color:#000000
+}
+
+.type-csharp .highlight .s{
+  color:#A31515
+}
+
+.type-csharp .highlight .sc{
+  color:#A31515
+}</style><title>post</title></head><body><h1 id="getting-started-with-the-filesystem-api">Getting Started with the FileSystem API</h1>
+<h2 id="key-concepts">Key Concepts</h2>
+<h3 id="offline-first">Offline First</h3>
+<p>This point isn't really specific to the FileSystem APIs, but just offline web applications in general.</p>
+<blockquote>
+<p>If you want to make something work offline, it has to be offline first.</p>
+</blockquote>
+<p><a href="https://twitter.com/jaffathecake">Jake Archibald</a>, Developer Advocate @ Google<br />
+Source: <em><a href="http://5by5.tv/bigwebshow/95">The Big Web Show: Episode #95</a></em></p>
+<p>If you're building a web app that you want to work offline you need to start by assuming that your app is offline to begin with. View the internet connection as an add-on that won't always be available.</p>
+<p>I know that this is counter to the usual way of doing things but it will really help you to make smarter design decisions. Building web applications that work offline is a whole other ball game. We're used to assuming that the internet connection is always there but with offline applications sometimes it is, sometimes it's not. Strategies for synchronizing data with a server need to be present from the start, not bolted on later.</p>
+<h3 id="asynchronous-vs-synchronous">Asynchronous vs Synchronous</h3>
+<h3 id="sandboxed">Sandboxed</h3>
+<h3 id="storage-types-and-quotas">Storage Types and Quotas</h3>
+<h3 id="handling-errors">Handling Errors</h3>
+<pre>
+function errorHandler(error) {
+  var message = '';
+
+  switch (error.code) {
+    case FileError.SECURITY_ERR:
+      message = 'Security Error';
+      break;
+    case FileError.NOT_FOUND_ERR:
+      message = 'Not Found Error';
+      break;
+    case FileError.QUOTA_EXCEEDED_ERR:
+      message = 'Quota Exceeded Error';
+      break;
+    case FileError.INVALID_MODIFICATION_ERR:
+      message = 'Invalid Modification Error';
+      break;
+    case FileError.INVALID_STATE_ERR:
+      message = 'Invalid State Error';
+      break;
+    default:
+      message = 'Unknown Error';
+      break;
+  }
+
+  console.log(message);
+}
+</pre>
+
+<h2 id="restrictions-of-the-filesystem-api">Restrictions of the FileSystem API</h2>
+<h3 id="same-origin-policy">Same-Origin Policy</h3>
+<h3 id="no-executable-files">No Executable Files</h3>
+<h3 id="sandboxed_1">Sandboxed</h3>
+<h3 id="apps-must-be-served-over-httphttps">Apps must be served over HTTP/HTTPS</h3>
+<h2 id="requesting-a-file-system">Requesting a File System</h2>
+<ul>
+<li><code>type</code></li>
+<li><code>size</code></li>
+<li><code>successCallback</code></li>
+<li><code>errorCallback</code> (optional)</li>
+</ul>
+<pre>
+// requestFileSystem is prefixed in Google Chrome and Opera.
+window.requestFileSystem = window.requestFileSystem || window.webkitRequestFileSystem;
+
+window.requestFileSystem(type, size, successCallback, errorCallback);
+</pre>
+
+<h3 id="managing-your-storage-quota">Managing Your Storage Quota</h3>
+<ul>
+<li><code>type</code></li>
+<li><code>size</code></li>
+<li><code>successCallback</code></li>
+<li><code>errorCallback</code></li>
+</ul>
+<p>Temporary / Persistent Storage</p>
+<ul>
+<li><code>navigator.webkitTemporaryStorage</code></li>
+<li><code>navigator.webkitPersistentStorage</code></li>
+</ul>
+<pre>
+navigator.webkitPersistentStorage.requestQuota(
+  1024 * 1024 * 10,
+  function(grantedSize) {
+
+    // Request a file system with the new size.
+    window.requestFileSystem(window.PERSISTENT, grantedSize, function(filesystem) {
+
+      // Do something with your new (larger) filesystem
+
+    }, errorHandler);
+
+  }, function(error) {
+    console.log('Error', error);
+  }
+);
+</pre>
+
+<h2 id="managing-files">Managing Files</h2>
+<h3 id="the-fileentry-interface">The FileEntry Interface</h3>
+<h4 id="properties">Properties</h4>
+<ul>
+<li><code>isFile</code> (boolean)</li>
+<li><code>name</code> (string)</li>
+<li><code>fullPath</code> (string)</li>
+</ul>
+<h4 id="methods">Methods</h4>
+<ul>
+<li><code>getMetadata(successCallback, errorCallback)</code></li>
+<li><code>remove(successCallback, errorCallback)</code></li>
+<li><code>moveTo(dirEntry, newName, successCallback, errorCallback)</code></li>
+<li><code>copyTo(dirEntry, newName, successCallback, errorCallback)</code></li>
+<li><code>getParent(successCallback, errorCallback)</code></li>
+<li><code>toURL(mimeType)</code></li>
+<li><code>file(successCallback, errorCallback)</code></li>
+<li><code>createWriter(successCallback, errorCallback)</code></li>
+</ul>
+<h3 id="creating-files">Creating Files</h3>
+<pre>
+function onInitFileSystem(filesystem) {
+  filesystem.root.getFile('treehouse.txt', { create: true, exclusive: true },
+    function(fileEntry) {
+
+      // Do something with your new file.
+
+    }, errorHandler);
+}
+
+window.requestFileSystem(window.TEMPORARY, 1024 * 1024, onInitFileSystem,
+  errorHandler);
+</pre>
+
+<h3 id="reading-files">Reading Files</h3>
+<pre>
+filesystem.root.getFile('treehouse.txt', {}, function(fileEntry) {
+
+  fileEntry.file(function(file) {
+    var reader = new FileReader();
+
+    reader.onload = function(e) {
+      var viewerElement = document.createElement('pre');
+      viewerElement.innerHTML = this.result;
+      document.body.appendChild(viewerElement);
+    };
+
+    reader.readAsText(file);
+  }, errorHandler);
+
+}, errorHandler);
+</pre>
+
+<h3 id="writing-to-files">Writing to Files</h3>
+<pre>
+filesystem.root.getFile('treehouse.txt', {create: true}, function(fileEntry) {
+
+  fileEntry.createWriter(function(fileWriter) {
+
+    fileWriter.onwriteend = function(e) {
+      console.log('Write completed!');
+    };
+
+    fileWriter.onerror = function(e) {
+      console.log('Write error: ' + e.toString());
+    };
+
+    var contentBlob = new Blob(['Treehouse rocks!'], {type: 'text/plain'});
+
+    fileWriter.write(contentBlob);
+
+  }, errorHandler);
+
+}, errorHandler);
+</pre>
+
+<h3 id="deleting-files">Deleting Files</h3>
+<pre>
+filesystem.root.getFile('treehouse.txt', {create: false}, function(fileEntry) {
+
+  fileEntry.remove(function(e) {
+    console.log('File deleted');
+  }, errorHandler);
+
+}, errorHandler);
+</pre>
+
+<h3 id="adding-files-from-the-desktop">Adding Files From The Desktop</h3>
+<pre>
+&lt;input type=&quot;file&quot; id=&quot;filePicker&quot; multiple&gt;
+</pre>
+
+<pre>
+// Listen for the change event that is fired when the user finishes selecting
+// files from the desktop.
+document.getElementById('filePicker').addEventListener('change', function(e) {
+  // Get the selected files.
+  var files = this.files;
+
+  // Request the file system.
+  window.requestFileSystem(window.TEMPORARY, 1024 * 1024, function(filesystem) {
+    // Copy each of the files to the filesystem.
+    for (var i = 0; i < files.length; i++) {
+      var file = files[i];
+
+      // Create a new file in the app filesystem.
+      filesystem.root.getFile(file.name, {create: true, exclusive: true},
+        function(fileEntry) {
+
+          // Create a file writer.
+          fileEntry.createWriter(function(fileWriter) {
+
+            // Write the contents of the selected file to the file in the app
+            // filesystem.
+            fileWriter.write(file);
+
+          }, errorHandler);
+
+        }, errorHandler);
+
+    }
+
+  }, errorHandler);
+
+});
+</pre>
+
+<h3 id="copying-files">Copying Files</h3>
+<pre>
+function copy(workingDirectory, source, destination) {
+  workingDirectory.getFile(source, {}, function(fileEntry) {
+
+    workingDirectory.getDirectory(destination, {}, function(dirEntry) {
+      fileEntry.copyTo(dirEntry);
+    }, errorHandler);
+
+  }, errorHandler);
+}
+
+window.requestFileSystem(window.TEMPORARY, 1024 * 1024, function(filesystem) {
+  copy(filesystem.root, '/folder1/treehouse.txt', 'folder2/');
+}, errorHandler);
+</pre>
+
+<h3 id="renaming-files">Renaming Files</h3>
+<pre>
+function rename(workingDirectory, source, newName) {
+  workingDirectory.getFile(source, {}, function(fileEntry) {
+
+    fileEntry.moveTo(workingDirectory, newName);
+
+  }, errorHandler);
+}
+
+window.requestFileSystem(window.TEMPORARY, 1024 * 1024, function(filesystem) {
+  rename(filesystem.root, 'treehouse.txt', 'mikethefrog.txt');
+}, errorHandler);
+</pre>
+
+<h3 id="moving-files">Moving Files</h3>
+<pre>
+function move(source, directoryName) {
+  filesystem.root.getFile(source, {}, function(fileEntry) {
+
+    filesystem.root.getDirectory(directoryName, {}, function(dirEntry) {
+      fileEntry.moveTo(dirEntry);
+    }, errorHandler);
+
+  }, errorHandler);
+}
+
+window.requestFileSystem(window.TEMPORARY, 1024 * 1024, function(filesystem) {
+  move(filesystem.root, '/treehouse.txt', 'folder/');
+}, errorHandler);
+</pre>
+
+<h2 id="managing-directories">Managing Directories</h2>
+<h3 id="the-directoryentry-interface">The DirectoryEntry Interface</h3>
+<h4 id="properties_1">Properties</h4>
+<ul>
+<li><code>isDirectory</code> (boolean)</li>
+<li><code>name</code> (string)</li>
+<li><code>fullPath</code> (string)</li>
+</ul>
+<h4 id="methods_1">Methods</h4>
+<ul>
+<li><code>createReader()</code></li>
+<li><code>getFile(path, options, successCallback, errorCallback)</code></li>
+<li><code>getDirectory(path, options, successCallback, errorCallback)</code></li>
+<li><code>removeRecursively(successCallback, errorCallback)</code></li>
+</ul>
+<p>These methods are also available on the <code>FileEntry</code> interface.</p>
+<ul>
+<li><code>getMetadata(successCallback, errorCallback)</code></li>
+<li><code>remove(successCallback, errorCallback)</code></li>
+<li><code>moveTo(dirEntry, newName, successCallback, errorCallback)</code></li>
+<li><code>copyTo(dirEntry, newName, successCallback, errorCallback)</code></li>
+<li><code>getParent(successCallback, errorCallback)</code></li>
+</ul>
+<h3 id="creating-directories">Creating Directories</h3>
+<pre>
+window.requestFileSystem(window.TEMPORARY, 1024 * 1024, function(filesystem) {
+
+  filesystem.root.getDirectory('videos', {create: true}, function(dirEntry) {
+    // Do something with your new directory.
+  }, errorHandler);
+
+}, errorHandler);
+</pre>
+
+<h3 id="listing-the-files-in-a-directory">Listing The Files in a Directory</h3>
+<pre>
+function toArray(list) {
+  return Array.prototype.slice.call(list || [], 0);
+}
+
+function listEntries(entries) {
+  var list = document.getElementById('fileList');
+
+  entries.forEach(function(entry, i) {
+    var li = document.createElement('li');
+    li.innerHTML = entry.name;
+    list.appendChild(li);
+  });
+}
+
+function onInitFileSystem(filesystem) {
+
+  var dirReader = filesystem.root.createReader();
+  var entries = [];
+
+  var readEntries = function() {
+
+    dirReader.readEntries(function(results) {
+
+      if (!results.length) {
+        listEntries(entries.sort().reverse());
+      } else {
+        entries = entries.concat(toArray(results));
+        readEntries();
+      }
+
+    }, errorHandler);
+
+  };
+
+  readEntries();
+
+}
+
+window.requestFileSystem(window.TEMPORARY, 1024 * 1024, onInitFileSystem,
+  errorHandler);
+</pre>
+
+<h3 id="deleting-directories">Deleting Directories</h3>
+<pre>
+filesystem.root.getDirectory('folder/of/things', {}, function(dirEntry) {
+
+  // Remove the directory.
+  dirEntry.remove(function(e) {
+    console.log('Folder deleted');
+  }, errorHandler);
+
+}, errorHandler);
+</pre>
+
+<h3 id="copying-directories">Copying Directories</h3>
+<pre>
+function copy(workingDirectory, source, destination) {
+  workingDirectory.getDirectory(source, {}, function(workingDirEntry) {
+
+    workingDirectory.getDirectory(destination, {}, function(dirEntry) {
+      workingDirEntry.copyTo(dirEntry);
+    }, errorHandler);
+
+  }, errorHandler);
+}
+
+window.requestFileSystem(window.TEMPORARY, 1024 * 1024, function(filesystem) {
+  copy(filesystem.root, '/folder1', 'old/');
+}, errorHandler);
+</pre>
+
+<h3 id="renaming-directories">Renaming Directories</h3>
+<pre>
+function rename(workingDirectory, source, newName) {
+  workingDirectory.getDirectory(source, {}, function(dirEntry) {
+
+    dirEntry.moveTo(workingDirectory, newName);
+
+  }, errorHandler);
+}
+
+window.requestFileSystem(window.TEMPORARY, 1024 * 1024, function(filesystem) {
+  rename(filesystem.root, '/folder', 'newfoldername');
+}, errorHandler);
+</pre>
+
+<h3 id="moving-directories">Moving Directories</h3>
+<pre>
+function move(workingDirectory, source, destination) {
+  workingDirectory.getDirectory(source, {}, function(sourceDirEntry) {
+
+    workingDirectory.getDirectory(destination, {}, function(destDirEntry) {
+      sourceDirEntry.moveTo(destDirEntry);
+    }, errorHandler);
+
+  }, errorHandler);
+}
+
+window.requestFileSystem(window.TEMPORARY, 1024 * 1024, function(filesystem) {
+  move(filesystem.root, '/one', '/two');
+}, errorHandler);
+</pre>
+
+<h2 id="filesystem-urls">FileSystem URLs</h2>
+<pre>
+fileEntry.toURL();
+</pre>
+
+<h2 id="inspecting-the-filesystem-with-chrome-dev-tools">Inspecting the FileSystem with Chrome Dev Tools</h2>
+<h2 id="demo">Demo</h2>
+<h3 id="setting-up-the-html-and-css">Setting up the HTML and CSS</h3>
+<pre>
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;utf-8&quot;&gt;
+  &lt;title&gt;FileSystem APIs Demo&lt;/title&gt;
+
+  &lt;link rel=&quot;stylesheet&quot; href=&quot;style.css&quot;&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+  &lt;div id=&quot;page-wrapper&quot; class=&quot;clearfix&quot;&gt;
+    &lt;h1&gt;A Simple HTML5 Text Editor&lt;/h1&gt;
+    &lt;p&gt;Powered by the FileSystem APIs.&lt;/p&gt;
+
+    &lt;form action=&quot;#&quot; method=&quot;POST&quot; id=&quot;file-form&quot;&gt;
+      &lt;div class=&quot;field&quot;&gt;
+        &lt;input type=&quot;text&quot; name=&quot;filename&quot; id=&quot;filename&quot; placeholder=&quot;Filename (e.g. treehouse.txt)&quot;&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;field&quot;&gt;
+        &lt;textarea name=&quot;content&quot; id=&quot;content&quot; placeholder=&quot;Type your content here...&quot;&gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;field&quot;&gt;
+        &lt;button type=&quot;submit&quot;&gt;Save File&lt;/button&gt;
+        &lt;div id=&quot;messages&quot;&gt;&lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/form&gt;
+
+    &lt;div id=&quot;files&quot;&gt;
+      &lt;h2&gt;File Browser&lt;/h2&gt;
+      &lt;ul id=&quot;file-list&quot;&gt;&lt;/ul&gt;
+    &lt;/div&gt;
+
+  &lt;/div&gt;
+
+  &lt;script src=&quot;app.js&quot;&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+
+<h3 id="writing-the-javascript">Writing The JavaScript</h3>
+<h4 id="1-get-references-to-key-html-elements">1. Get References to Key HTML Elements</h4>
+<pre>
+window.onload = function() {
+
+  // Allow for vendor prefixes.
+  window.requestFileSystem = window.requestFileSystem ||
+                             window.webkitRequestFileSystem;
+
+
+  // Create a variable that will store a reference to the FileSystem.
+  var filesystem = null;
+
+  // Get references to the page elements.
+  var form = document.getElementById('file-form');
+  var filenameInput = document.getElementById('filename');
+  var contentTextArea = document.getElementById('content');
+  var fileList = document.getElementById('file-list');
+  var messageBox = document.getElementById('messages');
+
+
+  // The rest of the code goes here...
+};
+</pre>
+
+<h4 id="2-create-an-error-handler">2. Create an Error Handler</h4>
+<pre>
+// A simple error handler to be used throughout this demo.
+function errorHandler(error) {
+  var message = '';
+
+  switch (error.code) {
+    case FileError.SECURITY_ERR:
+      message = 'Security Error';
+      break;
+    case FileError.NOT_FOUND_ERR:
+      message = 'Not Found Error';
+      break;
+    case FileError.QUOTA_EXCEEDED_ERR:
+      message = 'Quota Exceeded Error';
+      break;
+    case FileError.INVALID_MODIFICATION_ERR:
+      message = 'Invalid Modification Error';
+      break;
+    case FileError.INVALID_STATE_ERR:
+      message = 'Invalid State Error';
+      break;
+    default:
+      message = 'Unknown Error';
+      break;
+  }
+
+  console.log(message);
+}
+</pre>
+
+<h4 id="3-request-a-filesystem">3. Request a FileSystem</h4>
+<pre>
+// Request a FileSystem and set the filesystem variable.
+function initFileSystem() {
+  navigator.webkitPersistentStorage.requestQuota(1024 * 1024,
+    function(grantedSize) {
+
+      // Request a file system with the new size.
+      window.requestFileSystem(window.PERSISTENT, grantedSize, function(fs) {
+
+        // Set the filesystem variable.
+        filesystem = fs;
+
+        // Setup event listeners on the form.
+        setupFormEventListener();
+
+        // Update the file browser.
+        listFiles();
+
+      }, errorHandler);
+
+    }, function(error) {
+      console.log('Error', error);
+    }
+  );
+}
+
+// Start the app by requesting a FileSystem (if the browser supports the API)
+if (window.requestFileSystem) {
+  initFileSystem();
+} else {
+  alert('Sorry! Your browser doesn\'t support the FileSystem API :(');
+}
+</pre>
+
+<h4 id="4-setup-event-listeners-for-the-form">4. Setup Event Listeners for the Form</h4>
+<pre>
+// Add event listeners on the form.
+function setupFormEventListener() {
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    // Get the form data.
+    var filename = filenameInput.value;
+    var content = contentTextArea.value;
+
+    // Save the file.
+    saveFile(filename, content);
+  });
+
+}
+</pre>
+
+<h4 id="5-saving-form-data-to-files">5. Saving Form Data to Files</h4>
+<pre>
+// Save a file in the FileSystem.
+function saveFile(filename, content) {
+  filesystem.root.getFile(filename, {create: true}, function(fileEntry) {
+
+    fileEntry.createWriter(function(fileWriter) {
+
+      fileWriter.onwriteend = function(e) {
+        // Update the file browser.
+        listFiles();
+
+        // Clean out the form field.
+        filenameInput.value = '';
+        contentTextArea.value = '';
+
+        // Show a saved message.
+        messageBox.innerHTML = 'File saved!';
+      };
+
+      fileWriter.onerror = function(e) {
+        console.log('Write error: ' + e.toString());
+        alert('An error occurred and your file could not be saved!');
+      };
+
+      var contentBlob = new Blob([content], {type: 'text/plain'});
+
+      fileWriter.write(contentBlob);
+
+    }, errorHandler);
+
+  }, errorHandler);
+}
+</pre>
+
+<h4 id="6-listing-files-in-the-file-browser">6. Listing Files in The File Browser</h4>
+<pre>
+function toArray(list) {
+  return Array.prototype.slice.call(list || [], 0);
+}
+
+function getEntries(entries) {
+  // Clear out the current file browser entries.
+  fileList.innerHTML = '';
+
+  entries.forEach(function(entry, i) {
+    var li = document.createElement('li');
+    var link = document.createElement('a');
+    link.innerHTML = entry.name;
+    link.className = 'edit-file';
+    link.setAttribute('data-filename', entry.name);
+    li.appendChild(link);
+    fileList.appendChild(li);
+
+    // Setup an event listener that will load the file when the link
+    // is clicked.
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      loadFile(entry.name);
+    });
+  });
+}
+
+
+function listFiles() {
+  var dirReader = filesystem.root.createReader();
+  var entries = [];
+
+  var readEntries = function() {
+    dirReader.readEntries(function(results) {
+      if (!results.length) {
+        getEntries(entries.sort().reverse());
+      } else {
+        entries = entries.concat(toArray(results));
+        readEntries();
+      }
+    }, errorHandler);
+  };
+
+  readEntries();
+}
+</pre>
+
+<h4 id="7-loading-files-from-the-filesystem">7. Loading Files From The FileSystem</h4>
+<pre>
+function loadFile(filename) {
+  filesystem.root.getFile(filename, {}, function(fileEntry) {
+
+    fileEntry.file(function(file) {
+      var reader = new FileReader();
+
+      reader.onload = function(e) {
+        // Update the form fields.
+        filenameInput.value = filename;
+        contentTextArea.value = this.result;
+      };
+
+      reader.readAsText(file);
+    }, errorHandler);
+
+  }, errorHandler);
+}
+</pre>
+
+<h4 id="8-youre-done">8. You’re Done!</h4>
+<h2 id="browser-support">Browser Support</h2>
+<h3 id="how-to-detect-browser-support">How To Detect Browser Support</h3>
+<h2 id="final-thoughts">Final Thoughts</h2>
+<h2 id="useful-links">Useful Links</h2>
+<ul>
+<li><a href="http://caniuse.com/filesystem">Can I use: Filesystem &amp; FileWriter API</a></li>
+<li><a href="http://www.w3.org/TR/file-system-api/">File API: Directories and System Specification (W3C)</a></li>
+<li><a href="http://www.w3.org/TR/quota-api/">Quota Management API Specification (W3C)</a></li>
+<li><a href="https://developers.google.com/chrome/whitepapers/storage">Managing HTML5 Offline Storage</a></li>
+<li><a href="http://www.html5rocks.com/en/tutorials/file/filesystem/">Exploring the FileSystem APIs (HTML5Rocks)</a></li>
+</ul></body></html>

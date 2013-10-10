@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lanf="en">
+<head>
+  <meta charset="utf-8">
+  <title>Native <dialog> Element Demo</title>
+  
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+	<div id="page-wrapper">
+  	<h1>Native &lt;dialog&gt; Element Demo</h1>
+  	<p>
+  		This will only work in Chrome Canary. Be sure to enable the <code>Enable experimental Web Platform features</code> flag.
+  	</p>
+
+	  <button id="launchDialog">Launch Dialog</button>
+	  <button id="launchModal">Launch Modal</button>
+	  <button id="launchStyledModal">Launch Styled Modal</button>
+
+	  <p>
+  		A polyfill is available <a href="https://github.com/GoogleChrome/dialog-polyfill" target="_blank">here</a>.
+  	</p>
+	</div>
+
+  <dialog id="dialog">
+  	<p>Hi, I'm a dialog!</p>
+  	<button class="close">Okay</button>
+  </dialog>
+
+  <dialog id="modal">
+  	<p>Hi, I'm a modal!</p>
+  	<button class="close">Okay</button>
+  </dialog>
+
+  <dialog id="styledModal">
+  	<p>Hi, I'm a styled modal!</p>
+  	<button class="close">Okay</button>
+  </dialog>
+  
+  <script src="app.js"></script>
+</body>
+</html>
