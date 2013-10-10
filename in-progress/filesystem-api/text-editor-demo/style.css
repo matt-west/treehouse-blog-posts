@@ -51,6 +51,12 @@ a:focus {
   cursor: pointer;
 }
 
+a.delete-file,
+a.delete-file:visited {
+  color: #CC0000;
+  margin-left: 0.5rem;
+}
+
 #file-form {
   width: 650px;
   float: left;

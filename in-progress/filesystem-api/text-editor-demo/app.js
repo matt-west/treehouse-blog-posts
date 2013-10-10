@@ -49,7 +49,7 @@ window.onload = function() {
 
   // Request a FileSystem and set the filesystem variable.
   function initFileSystem() {
-    navigator.webkitPersistentStorage.requestQuota(1024 * 1024,
+    navigator.webkitPersistentStorage.requestQuota(1024 * 1024 * 5,
       function(grantedSize) {
 
         // Request a file system with the new size.
@@ -66,10 +66,7 @@ window.onload = function() {
 
         }, errorHandler);
 
-      }, function(error) {
-        console.log('Error', error);
-      }
-    );
+      }, errorHandler);
   }
 
 
@@ -92,22 +89,23 @@ window.onload = function() {
   }
 
 
-  function toArray(list) {
-    return Array.prototype.slice.call(list || [], 0);
-  }
-
-
-  function getEntries(entries) {
+  function displayEntries(entries) {
     // Clear out the current file browser entries.
     fileList.innerHTML = '';
 
     entries.forEach(function(entry, i) {
       var li = document.createElement('li');
+
       var link = document.createElement('a');
       link.innerHTML = entry.name;
       link.className = 'edit-file';
-      link.setAttribute('data-filename', entry.name);
       li.appendChild(link);
+
+      var delLink = document.createElement('a');
+      delLink.innerHTML = '[x]';
+      delLink.className = 'delete-file';
+      li.appendChild(delLink);
+
       fileList.appendChild(li);
 
       // Setup an event listener that will load the file when the link
@@ -115,6 +113,13 @@ window.onload = function() {
       link.addEventListener('click', function(e) {
         e.preventDefault();
         loadFile(entry.name);
+      });
+
+      // Setup an event listener that will delete the file when the delete link
+      // is clicked.
+      delLink.addEventListener('click', function(e) {
+        e.preventDefault();
+        deleteFile(entry.name);
       });
     });
   }
@@ -124,18 +129,18 @@ window.onload = function() {
     var dirReader = filesystem.root.createReader();
     var entries = [];
 
-    var readEntries = function() {
+    var fetchEntries = function() {
       dirReader.readEntries(function(results) {
         if (!results.length) {
-          getEntries(entries.sort().reverse());
+          displayEntries(entries.sort().reverse());
         } else {
-          entries = entries.concat(toArray(results));
-          readEntries();
+          entries = entries.concat(results);
+          fetchEntries();
         }
       }, errorHandler);
     };
 
-    readEntries();
+    fetchEntries();
   }
 
 
@@ -166,6 +171,21 @@ window.onload = function() {
 
         fileWriter.write(contentBlob);
 
+      }, errorHandler);
+
+    }, errorHandler);
+  }
+
+
+  function deleteFile(filename) {
+    filesystem.root.getFile(filename, {create: false}, function(fileEntry) {
+
+      fileEntry.remove(function(e) {
+        // Update the file browser.
+        listFiles();
+
+        // Show a deleted message.
+        messageBox.innerHTML = 'File deleted!';
       }, errorHandler);
 
     }, errorHandler);
