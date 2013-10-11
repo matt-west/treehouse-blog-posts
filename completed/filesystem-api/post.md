@@ -1,5 +1,7 @@
 # Building an HTML5 Text Editor with the FileSystem APIs
 
+[TOC]
+
 In recent years we have seen the introduction of a whole new set of APIs that aim to give developers the power to store data on a user's machine. In this blog post you are going to learn how to use the FileSystem API to create a virtual filesystem on the user's machine that you can then use for storing files.
 
 By the end of this blog post you will have created a simple HTML5 text editor that allows you to create, read, edit, and delete files that are stored in the app's filesystem.
@@ -56,6 +58,9 @@ If you want to use the FileSystem API you must server your application using `ht
 
 For security purposes you cannot create executable files within the filesystem.
 
+hello world  
+new line
+
 
 ## Browser Support
 
@@ -75,7 +80,7 @@ Source: [Can I use - FileSystem API](http://caniuse.com/filesystem)
 
 A simple way of detecting support for the FileSystem API is to look for the `requestFileSystem` method on the `window` object. Keep in mind that the API is currently prefixed in Chrome and Opera.
 
-<pre>
+```js
 // Handle vendor prefixes.
 window.requestFileSystem = window.requestFileSystem || 
                            window.webkitRequestFileSystem;
@@ -86,7 +91,7 @@ if (window.requestFileSystem) {
 } else {
   // FileSystem Not Supported :(
 }
-</pre>
+```
 
 
 ## Inspecting the FileSystem with Chrome Dev Tools
@@ -131,45 +136,45 @@ To get started you first need to setup the HTML and CSS for your application. Th
 
 Create a file called `index.html` and save it in a place that is accessible by your local development server. Next, open up that file in your favorite text editor and add the following code.
 
-<pre>
-&lt;!DOCTYPE html&gt;
-&lt;html lang=&quot;en&quot;&gt;
-&lt;head&gt;
-  &lt;meta charset=&quot;utf-8&quot;&gt;
-  &lt;title&gt;FileSystem APIs Demo&lt;/title&gt;
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>FileSystem APIs Demo</title>
 
-  &lt;link rel=&quot;stylesheet&quot; href=&quot;style.css&quot;&gt;
-&lt;/head&gt;
-&lt;body&gt;
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-  &lt;div id=&quot;page-wrapper&quot; class=&quot;clearfix&quot;&gt;
-    &lt;h1&gt;HTML5 Text Editor&lt;/h1&gt;
-    &lt;p&gt;Powered by the FileSystem APIs.&lt;/p&gt;
+  <div id="page-wrapper" class="clearfix">
+    <h1>HTML5 Text Editor</h1>
+    <p>Powered by the FileSystem APIs.</p>
 
-    &lt;form action=&quot;#&quot; method=&quot;POST&quot; id=&quot;file-form&quot;&gt;
-      &lt;div class=&quot;field&quot;&gt;
-        &lt;input type=&quot;text&quot; name=&quot;filename&quot; id=&quot;filename&quot; placeholder=&quot;Filename (e.g. treehouse.txt)&quot;&gt;
-      &lt;/div&gt;
-      &lt;div class=&quot;field&quot;&gt;
-        &lt;textarea name=&quot;content&quot; id=&quot;content&quot; placeholder=&quot;Type your content here...&quot;&gt;&lt;/textarea&gt;
-      &lt;/div&gt;
-      &lt;div class=&quot;field&quot;&gt;
-        &lt;button type=&quot;submit&quot;&gt;Save File&lt;/button&gt;
-        &lt;div id=&quot;messages&quot;&gt;&lt;/div&gt;
-      &lt;/div&gt;
-    &lt;/form&gt;
+    <form action="#" method="POST" id="file-form">
+      <div class="field">
+        <input type="text" name="filename" id="filename" placeholder="Filename (e.g. treehouse.txt)">
+      </div>
+      <div class="field">
+        <textarea name="content" id="content" placeholder="Type your content here..."></textarea>
+      </div>
+      <div class="field">
+        <button type="submit">Save File</button>
+        <div id="messages"></div>
+      </div>
+    </form>
 
-    &lt;div id=&quot;files&quot;&gt;
-      &lt;h2&gt;File Browser&lt;/h2&gt;
-      &lt;ul id=&quot;file-list&quot;&gt;&lt;/ul&gt;
-    &lt;/div&gt;
+    <div id="files">
+      <h2>File Browser</h2>
+      <ul id="file-list"></ul>
+    </div>
 
-  &lt;/div&gt;
+  </div>
 
-  &lt;script src=&quot;app.js&quot;&gt;&lt;/script&gt;
-&lt;/body&gt;
-&lt;/html&gt;
-</pre>
+  <script src="app.js"></script>
+</body>
+</html>
+```
 
 Here you have created a few key HTML elements for your application. The `<form>` will be used for creating and saving files and the `<ul>` element will be used to display a list of files in the filesystem. You've also added a messages `<div>` next to the save button. This will be used to give feedback to the user when a file is saved or deleted.
 
@@ -182,7 +187,7 @@ The next task is to setup the JavaScript file that will contain all of the code 
 
 Copy the following code into your new `app.js` file.
 
-<pre>
+```js
 window.onload = function() {
 
   // Allow for vendor prefixes.
@@ -203,7 +208,7 @@ window.onload = function() {
 
   // The rest of the code goes here...
 };
-</pre>
+```
 
 Here you have created a variable called `filesystem` that will be used to store a reference to the filesystem object.
 
