@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>requestAutocomplete Demo</title>
+  
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="page-wrapper">
+    <h1>requestAutocomplete Demo</h1>
+    <p>
+      Clicking the checkout button will call <code>requestAutocomplete</code>, which makes it easier for users to complete the checkout process.
+    </p>
+    <p>
+      This will only work in Chrome. Google Wallet integration is only available for users in the US.
+    </p>
+    
+    <button id="checkout-btn">Checkout</button>
+    
+    <form action="/checkout" method="post" id="checkout-form">
+      <!-- Credit Card Details -->
+      <input type="text" autocomplete="email" name="email">
+      <input type="text" autocomplete="cc-name" name="cc-name">
+      <input type="text" autocomplete="cc-number" name="cc-number">
+      <input type="text" autocomplete="cc-exp-month" name="cc-exp-month">
+      <input type="text" autocomplete="cc-exp-year" name="cc-exp-year">
+      <input type="text" autocomplete="cc-csc" name="cc-csc">
+      
+      <!-- Billing Address -->
+      <input type="text" autocomplete="billing name" name="billing-name">
+      <input type="tel" autocomplete="billing tel" name="billing-telephone">
+      <input type="text" autocomplete="billing street-address" name="billing-street-address">
+      <input type="text" autocomplete="billing locality" name="billing-locality">
+      <input type="text" autocomplete="billing region" name="billing-region">
+      <input type="text" autocomplete="billing postal-code" name="billing-postal-code">
+      <input type="text" autocomplete="billing country" name="billing-country">
+      
+      <!-- Shipping Address -->
+      <input type="text" autocomplete="shipping name" name="shipping-name">
+      <input type="tel" autocomplete="shipping tel" name="shipping-telephone">
+      <input type="text" autocomplete="shipping street-address" name="shipping-street-address">
+      <input type="text" autocomplete="shipping locality" name="shipping-locality">
+      <input type="text" autocomplete="shipping region" name="shipping-region">
+      <input type="text" autocomplete="shipping postal-code" name="shipping-postal-code">
+      <input type="text" autocomplete="shipping country" name="shipping-country">
+    </form>
+    
+  </div>
+  
+  <script src="app.js"></script>
+</body>
+</html>
