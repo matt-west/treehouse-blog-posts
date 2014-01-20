@@ -1,0 +1,266 @@
+<h1 id="creatingimmersiveexperienceswiththefullscreenapi">Creating Immersive Experiences with the Fullscreen API</h1>
+
+<p>Having the ability to take elements, or even entire pages fullscreen allows developers to create fully immersive experiences for the user. You can remove the distractions from other apps and help the user to focus on the task at hand. Whether your watching a movie, playing a game, or just trying to get some work done, going fullscreen can really help to keep you focussed.</p>
+
+<p>In this blog post you’re going to learn the ins and outs of the Fullscreen API. You’ll be learning how to take any element fullscreen, and how to style fullscreen elements using CSS pseudo-classes.</p>
+
+<h2 id="browsersupportforthefullscreenapi">Browser Support for the Fullscreen API</h2>
+
+<p>All the major desktop browsers include support for the Fullscreen API. However the implementations across these different browsers are inconsistent. Aside from the familiar vendor prefixes, the names of methods vary, as does the use of camelcase.</p>
+
+<table>
+<colgroup>
+<col style="text-align:center;"/>
+<col style="text-align:center;"/>
+<col style="text-align:center;"/>
+<col style="text-align:center;"/>
+<col style="text-align:center;"/>
+</colgroup>
+
+<thead>
+<tr>
+	<th style="text-align:center;">IE</th>
+	<th style="text-align:center;">Firefox</th>
+	<th style="text-align:center;">Chrome</th>
+	<th style="text-align:center;">Safari</th>
+	<th style="text-align:center;">Opera</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+	<td style="text-align:center;">11.0</td>
+	<td style="text-align:center;">10.0+</td>
+	<td style="text-align:center;">15.0+</td>
+	<td style="text-align:center;">5.1+</td>
+	<td style="text-align:center;">12.1+</td>
+</tr>
+</tbody>
+</table>
+
+<p>Source: <a href="http://caniuse.com/fullscreen">http://caniuse.com/fullscreen</a></p>
+
+<p>The current WebKit and Trident (IE) implementations are closest to the W3C standard for the <a href="http://www.w3.org/TR/fullscreen/">Fullscreen API</a>. However, no browser currently supports the non-vendor-prefixed API methods and properties.</p>
+
+<p>Support on mobile is currently confined to the Android versions of Chrome, Firefox and Opera. The Blackberry browser also include partial support for the API.</p>
+
+<table>
+<colgroup>
+<col style="text-align:center;"/>
+<col style="text-align:center;"/>
+<col style="text-align:center;"/>
+<col style="text-align:center;"/>
+<col style="text-align:center;"/>
+<col style="text-align:center;"/>
+<col style="text-align:center;"/>
+</colgroup>
+
+<thead>
+<tr>
+	<th style="text-align:center;">iOS Safari</th>
+	<th style="text-align:center;">Android Browser</th>
+	<th style="text-align:center;">Blackberry Browser</th>
+	<th style="text-align:center;">Opera Mobile</th>
+	<th style="text-align:center;">Chrome for Android</th>
+	<th style="text-align:center;">Firefox for Android</th>
+	<th style="text-align:center;">IE Mobile</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+	<td style="text-align:center;">-</td>
+	<td style="text-align:center;">-</td>
+	<td style="text-align:center;">10.0</td>
+	<td style="text-align:center;">16.0</td>
+	<td style="text-align:center;">31.0</td>
+	<td style="text-align:center;">25.0</td>
+	<td style="text-align:center;">-</td>
+</tr>
+</tbody>
+</table>
+
+<p>Source: <a href="http://caniuse.com/fullscreen">http://caniuse.com/fullscreen</a></p>
+
+<p>In this post I’ll take you through the various different implementations as they stand today. Keep in mind that these may change in the future.</p>
+
+<h2 id="goingfullscreen">Going Fullscreen</h2>
+
+<p>You can make any HTML element fullscreen using the <code>requestFullscreen</code> method. For example, you could make the whole page fullscreen using the following statement.</p>
+
+<pre><code>document.documentElement.requestFullscreen();
+</code></pre>
+
+<hr />
+
+<p><strong>Note</strong>: If you call <code>requestFullscreen</code> on the document body, WebKit and Blink based browsers will squash the width of the page to the smallest size possible to display the content. To avoid this you should go fullscreen on the document element instead (<code>document.documentElement</code>).</p>
+
+<hr />
+
+<p>The <code>requestFullscreen</code> method must be called in response to a direct user action, like a mouse click or a key press. This prevents websites from using the API for undesirable purposes, like displaying fullscreen ads.</p>
+
+<p>The implementations of <code>requestFullscreen</code> vary across browsers. The examples below show the methods for WebKit, Gecko and Trident browsers. Note the uppercase
+’S’ in the Gecko implementation.</p>
+
+<pre><code>document.documentElement.webkitRequestFullscreen(); // Chrome, Opera &amp; Safari (WebKit)
+document.documentElement.mozRequestFullScreen(); // Firefox (Gecko)
+document.documentElement.msRequestFullscreen(); // Internet Explorer (Trident)
+</code></pre>
+
+<p>You may want to create a helper function that abstracts away the complexity of supporting all these vendor prefixes from your main code. The example below shows how this could be achieved.</p>
+
+<pre><code>var requestFullscreen = function (ele) {
+    if (ele.requestFullscreen) {
+        ele.requestFullscreen();
+    } else if (ele.webkitRequestFullscreen) {
+        ele.webkitRequestFullscreen();
+    } else if (ele.mozRequestFullScreen) {
+        ele.mozRequestFullScreen();
+    } else if (ele.msRequestFullscreen) {
+        ele.msRequestFullscreen();
+    } else {
+        // Fallback
+        console.log('Fullscreen API is not supported.');
+    }
+};
+</code></pre>
+
+<h2 id="exitingfullscreen">Exiting Fullscreen</h2>
+
+<p>To exit fullscreen mode you can use the <code>exitFullscreen</code> method. This should be called on the <code>document</code> object.</p>
+
+<pre><code>document.exitFullscreen();
+</code></pre>
+
+<p>Again, the implementations of this method varies between the different browsers. The implementation in Firefox’s Gecko rendering engine uses the non-standard <code>mozCancelFullScreen</code> method.</p>
+
+<pre><code>document.webkitExitFullscreen(); // Chrome, Opera &amp; Safari
+document.mozCancelFullScreen(); // Firefox
+document.msExitFullscreen(); // Internet Explorer
+</code></pre>
+
+<p>Again, we see the uppercase ’S’ featured in the Gecko (Firefox) method. This convention is consistent across the entire Gecko implementation of the API.</p>
+
+<p>You could also create a helper function to abstract away the complexity of exiting fullscreen mode. The example below shows how you could achieve this.</p>
+
+<pre><code>var exitFullscreen = function () {
+    if (document.exitFullscreen) {
+        document.exitFullscreen();
+    } else if (document.webkitExitFullscreen) {
+        document.webkitExitFullscreen();
+    } else if (document.mozCancelFullScreen) {
+        document.mozCancelFullScreen();
+    } else if (document.msExitFullscreen) {
+        document.msExitFullscreen();
+    } else {
+        // Fallback
+        console.log('Fullscreen API is not supported.');
+    }
+};
+</code></pre>
+
+<h2 id="documentproperties">Document Properties</h2>
+
+<p>As well as the <code>requestFullscreen</code> and <code>exitFullscreen</code> methods, the API also extends the <code>document</code> object by adding two new properties. These are <code>fullscreenEnabled</code> and <code>fullscreenElement</code>.</p>
+
+<h3 id="fullscreenenabled">fullscreenEnabled</h3>
+
+<p>The <code>fullscreenEnabled</code> property has a boolean value that is set to <code>true</code> if the document has the ability to display elements fullscreen. </p>
+
+<pre><code>document.fullscreenEnabled;
+</code></pre>
+
+<p>The vendor-prefixed versions of the <code>fullscreenEnabled</code> property are as follows:</p>
+
+<pre><code>document.webkitFullscreenEnabled; // Chrome, Opera &amp; Safari
+document.mozFullScreenEnabled; // Firefox
+document.msFullscreenEnabled; // Internet Explorer
+</code></pre>
+
+<h3 id="fullscreenelement">fullscreenElement</h3>
+
+<p>The <code>fullscreenElement</code> property will return the HTML element that is currently displayed fullscreen. The property will be set to <code>null</code> if there’s no element in fullscreen mode.</p>
+
+<pre><code>document.fullscreenElement;
+</code></pre>
+
+<p>Here are the vendor-prefixed versions of this property:</p>
+
+<pre><code>document.webkitFullscreenElement; // Chrome, Opera &amp; Safari
+document.mozFullScreenElement; // Firefox
+document.msFullscreenElement; // Internet Explorer
+</code></pre>
+
+<h2 id="examplesofusingthefullscreenapi">Examples of using the Fullscreen API</h2>
+
+<p>Now that you understand how the API works lets take a look at a couple of examples. You’ve already seen how to make the entire document fullscreen. In this section you’re going to look at examples that use videos and images.</p>
+
+<h3 id="fullscreenvideos">Fullscreen Videos</h3>
+
+<p>A common use case of the Fullscreen API is to display media like videos fullscreen. This can be done by calling the <code>requestFullscreen</code> method directly on the <code>&lt;video&gt;</code> element. Remember that this will need to occur as the result of a user interaction.</p>
+
+<pre><code>var video = document.getElementById('video');
+var button = document.getElementById('btn');
+
+button.addEventListener('click', function(e) {
+    video.requestFullscreen();
+});
+</code></pre>
+
+<p>Of course this example shows the nice, clean standardised version of the API. For this to work you would need to use the vendor-prefixed versions mentioned earlier.</p>
+
+<h3 id="fullscreenimages">Fullscreen Images</h3>
+
+<p>You can display images fullscreen in much the same way as videos. In WebKit browsers, images will be displayed in the center of the screen, and as close to their original dimensions as possible. Firefox will stretch images to fill the entire screen.</p>
+
+<pre><code>var image = document.getElementById('image');
+var button = document.getElementById('btn');
+
+button.addEventListener('click', function(e) {
+    image.requestFullscreen();
+});
+</code></pre>
+
+<h2 id="stylingelementsinfullscreenmode">Styling Elements in Fullscreen Mode</h2>
+
+<p>There is a <code>:fullscreen</code> CSS pseudo-class that applies to elements in fullscreen mode. This functions in a similar way to <code>:hover</code> or <code>:focus</code> if you are familiar with CSS.</p>
+
+<pre><code>/* W3C Standard */
+selector:fullscreen {
+
+}
+</code></pre>
+
+<p>Again, the naming of this pseudo-class varies across browsers. The examples below show the vendor-prefixed versions for Chrome, Firefox, Opera, Safari and Internet Explorer.</p>
+
+<pre><code>/* Webkit (Chrome, Opera &amp; Safari) */
+selector:-webkit-full-screen {
+
+}
+
+/* Gecko (Firefox) */
+selector:-moz-full-screen {
+
+}
+
+/* Trident (Internet Explorer) */
+selector:-ms-fullscreen {
+
+}
+</code></pre>
+
+<h2 id="finalthoughts">Final Thoughts</h2>
+
+<p>The Fullscreen API enables web developers to match the immersive experiences that were only previously possible with native applications. The current implementations of this API may be a little inconsistent, but this feature is certainly not going to get any less important as time goes by. </p>
+
+<p>One thing we haven’t spoken about a lot in this post is how the Fullscreen API applies to mobile. Mobile devices are arguably one of the most important platforms for this new browser feature. The inherent lack of screen space on a mobile device means that any extra pixels that you can get your hands on are a big bonus. </p>
+
+<p>Just because you now have the power to go fullscreen doesn’t mean that you should though. You need to seriously consider whether your desire to go fullscreen is just a greed for attention, or if viewing your app fullscreen will make a significant and positive impact to the user experience.</p>
+
+<h2 id="usefullinks">Useful Links</h2>
+
+<ul>
+<li><a href="http://www.w3.org/TR/fullscreen/">Fullscreen API W3C Specification</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/Guide/API/DOM/Using_full_screen_mode">Using Fullscreen Mode (MDN)</a></li>
+<li><a href="http://msdn.microsoft.com/en-us/library/ie/dn265028(v=vs.85).aspx">Microsoft Fullscreen API Documentation</a></li>
+</ul>
